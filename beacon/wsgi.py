@@ -1,5 +1,5 @@
 """
-WSGI config for beacon project.
+WSGI config for fort project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
