@@ -1,7 +1,7 @@
 #  -*- coding:utf-8 -*-
 from django.http import JsonResponse
 import json
-from conf import fort_conf, return_code
+from beacon_conf import beacon_conf, return_code
 from beacon.forms import BaseForm
 
 
@@ -31,7 +31,7 @@ def my_required_login(function):
                     action = cld['action']
 
                     # 不需要登录,可以直接访问
-                    if action and action in fort_conf.NOT_USER_LOGIN_ACTION:
+                    if action and action in beacon_conf.NOT_USER_LOGIN_ACTION:
                         return function(request, *args, **kw)
                     else:
                         return_data.update(return_code.RETURN_ERROR)

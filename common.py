@@ -55,3 +55,31 @@ def transform_array_column(list, old_column, new_column):
             tmp[new_column[i]] = x[old_column[i]]
         data.append(tmp)
     return data
+
+def parse_js(expr):
+    """
+    解析非标准JSON的Javascript字符串，等同于json.loads(JSON str)
+    :param expr:非标准JSON的Javascript字符串
+    :return:Python字典
+    """
+    import ast
+    m = ast.parse(expr)
+    a = m.body[0]
+
+    def parse(node):
+        if isinstance(node, ast.Expr):
+            return parse(node.value)
+        elif isinstance(node, ast.Num):
+            return node.n
+        elif isinstance(node, ast.Str):
+            return node.s
+        elif isinstance(node, ast.Name):
+            return node.id
+        elif isinstance(node, ast.Dict):
+            return dict(zip(map(parse, node.keys), map(parse, node.values)))
+        elif isinstance(node, ast.List):
+            return map(parse, node.elts)
+        else:
+            raise NotImplementedError(node.__class__)
+
+    return parse(a)

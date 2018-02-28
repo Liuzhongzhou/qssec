@@ -1,8 +1,8 @@
 #  -*- coding:utf-8 -*-
 from django.http import JsonResponse
 import json
-from conf import fort_conf, return_code
-from fort_user.models import Menu
+from beacon_conf import beacon_conf, return_code
+from beacon_user.models import Menu
 
 
 def my_required_authority(function):
@@ -23,13 +23,20 @@ def my_required_authority(function):
         # 功能函数名
         do_action = params['action']
         if do_action:
+
+            '''
+            # 数据库用户类型为测试类型(方便测试使用)
+            '''
+            if request.user.type:
+                return function(request, *args, **kw)
+
             # 角色
             if request.user.role:
                 role_id = request.user.role.id
                 actions = Menu.objects.filter(role=role_id, api_action__isnull=False) \
                     .values_list('api_action', flat=True).distinct()
                 # 角色存在此权限,或权限不需验证
-                if do_action in actions or do_action in fort_conf.NOT_USER_AUTHORITY_ACTION:
+                if do_action in actions or do_action in beacon_conf.NOT_USER_AUTHORITY_ACTION:
                     return function(request, *args, **kw)
                 else:
                     # 无权限

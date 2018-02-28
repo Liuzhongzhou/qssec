@@ -48,3 +48,16 @@ class Menu(models.Model):
 
     class Meta:
         db_table = 't_role_menu'
+
+
+class City(models.Model):
+    '''
+    地市表
+    '''
+    code = models.CharField(u"地市编码", max_length=128)
+    name = models.CharField(u"地市名称", max_length=128)
+    type = models.IntegerField(u"地市类型 30-省 40-市 50-区县")
+    pcode = models.CharField(u"上级地市编码", max_length=128)
+
+    class Meta:
+        db_table = 't_city'
