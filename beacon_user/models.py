@@ -31,7 +31,7 @@ class UserInfo(models.Model):
 
     # 用户类型暂时没用
     type = models.IntegerField(u'用户类型', default=0)
-    add_time = models.DateTimeField('添加日期', default=timezone.now)
+    add_time = models.DateTimeField(u'添加日期', default=timezone.now)
 
     # 关联组织
     org = models.ForeignKey('Organization', blank=True, null=True)
@@ -46,7 +46,7 @@ class Role(models.Model):
     '''
     name = models.CharField(u'角色名称', max_length=30)
     comment = models.CharField(u'备注', max_length=256, default='', null=False)
-    add_time = models.DateTimeField('添加日期', default=timezone.now)
+    add_time = models.DateTimeField(u'添加日期', default=timezone.now)
 
     class Meta:
         db_table = 't_role'
