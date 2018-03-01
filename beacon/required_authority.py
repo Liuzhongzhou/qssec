@@ -27,8 +27,8 @@ def my_required_authority(function):
             '''
             # 数据库用户类型为测试类型(方便测试使用)
             '''
-            if request.user.type:
-                return function(request, *args, **kw)
+            #if request.user.type:
+            return function(request, *args, **kw)
 
             # 角色
             if request.user.role:
