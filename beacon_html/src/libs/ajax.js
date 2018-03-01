@@ -17,8 +17,6 @@ ajax.install = ((Vue, options) => {
             return axios.get(baseURL + url).then((res) => {
                 if (res.data && res.data.return_code == 1) {
                     success(res);
-                } else if(res.data.return_code == '0'){
-                    this.$router.push({'name':'login'})
                 } else {
                     detailError(error, res.data.message);
                 }

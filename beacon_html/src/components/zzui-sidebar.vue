@@ -74,7 +74,7 @@
         }
         &-Bottom{
             position: absolute;
-            top:calc(~"100% - 190px");
+            top:calc(~"100% - 218px");
             left: 0px;
             width: 100%;
             transition:all 0.5s;
@@ -82,12 +82,12 @@
     }
     .sidebar-wrap{
         position: absolute;
-        top:190px;
+        top:218px;
         left: 0px;
         width: 100%;
         transition:all 0.5s;
         &-Bottom{
-            transform: translateY(-190px);
+            transform: translateY(-218px);
             transition:all 0.5s;
         }
     }
@@ -104,6 +104,7 @@
             <p class="user p-t-10">系统管理员</p>
             <p class=" p-t-10">{{timeNow}}</p>
             <p class=" p-t-10" ><span>上次登录：</span><span>2018-12-12 09:00</span></p>
+            <p class=" p-t-10" ><span>量化分数：</span><span>100</span></p>
             <p class="line p-t-20"></p>
         </div>
         <div class="sidebar-wrap" :class="{'sidebar-wrap-Bottom':!isfirst}">
@@ -169,7 +170,10 @@
         methods: {
             /*params  {index,list.name,}*/
             checkMenu(name,child){
-
+                if(name == 'exit'){
+                    localStorage.clear();
+                    this.$router.push({'name':'login'});
+                }
                 if(!child) this.$router.push({'name':name});
             },
             checkchildMenu(index,name){

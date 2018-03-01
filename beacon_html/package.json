@@ -19,8 +19,6 @@
     "async-validator": "^1.8.2",
     "axios": "^0.17.1",
     "countup": "^1.8.2",
-    "d3": "^4.13.0",
-    "dagre-d3": "^0.6.1",
     "echarts": "^3.4.0",
     "iview": "^2.9.2",
     "js-cookie": "^2.1.3",

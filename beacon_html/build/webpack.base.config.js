@@ -85,10 +85,10 @@ module.exports = {
             threadPool: happyThreadPool,
             verbose: true
         }),
-        new webpack.ProvidePlugin({
-           'd3': 'd3',
-           'dagreD3': 'dagre-d3',
-        }),
+        //全局配置插件
+        // new webpack.ProvidePlugin({
+        //    'd3': 'd3',
+        // }),
     ],
     resolve: {
         extensions: ['.js', '.vue'],

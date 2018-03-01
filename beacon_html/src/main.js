@@ -30,7 +30,7 @@ const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start();
-    window.document.title = to.meta.title || '堡垒机';
+    window.document.title = to.meta.title || '烽火令';
     if(!localStorage.getItem('user_name') && to.meta.level){
         return next({name: "login"});
     };
