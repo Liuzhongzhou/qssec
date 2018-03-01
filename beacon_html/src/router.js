@@ -34,7 +34,17 @@ const menuConfig = [
                     num: '1-1'
                 },
                 component: (resolve) => require(['./views/home.vue'], resolve),
-            }]
+            },
+            {
+                path: '/login',
+                name: 'exit',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '退出',
+                    level: '1',
+                    pid: 'home',
+            }
+        },]
     },
     {
         path: '/user',

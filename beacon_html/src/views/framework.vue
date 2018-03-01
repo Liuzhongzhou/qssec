@@ -203,7 +203,6 @@
                 this.$router.push({'name':params.name});
             },
             changeRouter(params){
-                console.log(params.name);
                 this.routerName = params.name;
                 let name = params.meta.pid || params.name;
                 this.navMove(name);
