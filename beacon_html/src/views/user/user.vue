@@ -12,13 +12,13 @@
             </div>
             <div class="displayIB">
                 <span class="W80 displayIB">电话号码</span>
-                <Input v-model="form.phone" placeholder="Enter something..." clearable class="W240"></Input>
+                <Input v-model="form.telephone" placeholder="Enter something..." clearable class="W240"></Input>
             </div>
         </div>
         <div class="tool-box">
             <div class="displayIB m-r-10">
-                <span class="W80 displayIB">邮箱 </span>
-                <Input v-model="form.email" placeholder="Enter something..." clearable class="W240"></Input>
+                <span class="W80 displayIB">手机号码</span>
+                <Input v-model="form.phone" placeholder="Enter something..." clearable class="W240"></Input>
             </div>
             <div class="displayIB ">
                 <Button type="primary" @click="search">查询数据</Button>
@@ -50,7 +50,7 @@
                 form: {
                     username: '',
                     phone: '',
-                    email: '',
+                    telephone: '',
                 }
             };
         },
