@@ -69,3 +69,8 @@ class RoleDeleteForm(PageForm):
 # 菜单列表
 class MenuListForm(PageForm):
     name = forms.CharField(max_length=30, required=False)
+
+
+# 组织机构列表
+class OrganizationForm(PageForm):
+    name = forms.CharField(max_length=128, required=False)

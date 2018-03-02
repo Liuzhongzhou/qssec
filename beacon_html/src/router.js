@@ -121,6 +121,43 @@ const menuConfig = [
         ]
     },
     {
+    path: '/organization',
+    name: 'organization',
+    meta: {
+        icon: 'settings',
+        title: '组织机构',
+        level: '1',
+        num: '2'
+    },
+    redirect: '/organization/organization',
+    component: Index,
+    children: [
+        {
+            path: '/organization/organization',
+            name: 'organizationList',
+            meta: {
+                icon: 'ios-navigate',
+                title: '组织机构',
+                level: '1',
+                pid: 'organization',
+                num: '2-1'
+            },
+            component: (resolve) => require(['./views/organization/organization.vue'], resolve),
+        },
+        {
+            path: '/organization/edit',
+            name: 'organizationEdit',
+            meta: {
+                icon: 'ios-navigate',
+                title: '编辑',
+                level: '1',
+                pid: 'organization'
+            },
+            component: (resolve) => require(['./views/organization/organization-edit.vue'], resolve),
+        }
+     ]
+    },
+    {
         path: '/test',
         name: 'test',
         meta: {
