@@ -524,3 +524,97 @@ def get_api_action(code, list):
             if action:
                 return action
     return ''
+
+
+def organization_list(request):
+    """
+    组织机构列表
+    :param request:
+    :return:
+    """
+    params = json.loads(request.body)
+
+    # 验证form
+    form = OrganizationForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+
+    organization_query_list = Organization.objects.values_list('id', 'name', 'pid')
+    namelist = []
+    for organization in organization_query_list:
+        obj = dict()
+        obj['id'] = organization[0]
+        obj['name'] = organization[1]
+        obj['pid'] = organization[2]
+        namelist.append(obj)
+    # 返回前端数据
+    return_data = dict()
+    return_data['namelist'] = namelist
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+
+
+def organization_save(request):
+    """
+    组织机构编辑
+    :param request:
+    :return:
+    """
+    params = json.loads(request.body)
+
+    # 验证form
+    form = OrganizationForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+
+    id = params.get('id', '')  # 编号
+    name = params.get('name', '')  # 组织机构名称
+    pid = params.get('pid', '')  # 父ID
+
+    # 修改
+    if id:
+        organization = Organization.objects.filter(id=id)
+        # 记录不存在
+        if not organization:
+            return return_code.RETURN_ERROR
+        # 执行更新
+        organization.update(name=name, pid=pid)
+        print(organization)
+        organization = organization.first()
+        print(organization)
+    # 新增
+    else:
+        organization = Organization(name=name, pid=pid)
+        # 执行新增
+        organization.save()
+    return_data = dict()
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+
+
+def organization_delete(request):
+    """
+    删除组织机构
+    :param request:
+    :return:
+    """
+    params = json.loads(request.body)
+
+    # 验证form
+    form = OrganizationForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+
+    ids = params.get('ids', '')  # 编号
+    # 需删除id数组
+    id_list = ids.split(',')
+
+    if id_list:
+        # 执行删除
+        Organization.objects.filter(id__in=id_list).delete()
+
+    # 返回前端数据
+    return_data = dict()
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+
