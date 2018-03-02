@@ -31,9 +31,11 @@ class UserEditForm(forms.Form):
     id = forms.IntegerField(required=False)
     username = forms.CharField(max_length=30)
     password = forms.CharField(max_length=128)
-    phone = forms.CharField(max_length=11)
-    email = forms.CharField(max_length=50)
-    role = forms.CharField(max_length=50)
+    user_info__chinese_name = forms.CharField(max_length=100)
+    user_info__addr = forms.CharField(max_length=256)
+    user_info__sex = forms.IntegerField()
+    user_info__telephone = forms.CharField(max_length=20)
+    user_info__phone = forms.CharField(max_length=11)
 
 
 # 用户删除

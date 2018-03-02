@@ -22,9 +22,11 @@
                 columnsList: [
                     {type: 'selection', width: 80, align: 'center', key: 'id'},
                     {title: '用户名称', key: 'username', sortable: true},
+                    {title: '姓名', key: 'chinese_name', sortable: true},
+                    {title: '地址信息', key: 'addr', sortable: true},
+                    {title: '性别', key: 'sex', sortable: true},
+                    {title: '电话', key: 'telephone', sortable: true},
                     {title: '手机', key: 'phone', sortable: true},
-                    {title: '邮箱', key: 'email', sortable: true},
-                    {title: '角色', key: 'role', sortable: true},
                 ]
             };
         },

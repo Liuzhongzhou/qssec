@@ -6,16 +6,20 @@
         <FormItem label="密码" prop="password">
             <Input type="password" v-model="formValidate.password" placeholder="请输入密码"></Input>
         </FormItem>
-        <FormItem label="角色" prop="role">
-            <Select v-model="formValidate.role">
-                <Option v-for="item in roleList" :value="item.id" :key="item.id">{{ item.name }}</Option>
-            </Select>
+        <FormItem label="姓名" prop="user_info__chinese_name">
+           <Input v-model="formValidate.user_info__chinese_name" placeholder="请输入姓名"></Input>
         </FormItem>
-        <FormItem label="手机" prop="phone">
-            <Input v-model="formValidate.phone" placeholder="请输入手机号码"></Input>
+        <FormItem label="地址信息" prop="user_info__addr">
+            <Input v-model="formValidate.user_info__addr" placeholder="请输入地址信息"></Input>
         </FormItem>
-        <FormItem label="邮箱" prop="email">
-            <Input v-model="formValidate.email" placeholder="请输入邮箱"></Input>
+        <FormItem label="性别" prop="user_info__sex">
+            <Input v-model="formValidate.user_info__sex" placeholder="请输入性别"></Input>
+        </FormItem>
+        <FormItem label="电话" prop="user_info__telephone">
+            <Input v-model="formValidate.user_info__telephone" placeholder="请输入电话号码"></Input>
+        </FormItem>
+        <FormItem label="手机" prop="user_info__phone">
+            <Input v-model="formValidate.user_info__phone" placeholder="请输入手机号码"></Input>
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
@@ -30,9 +34,11 @@
                 formValidate: {
                     username: '',
                     password: '',
-                    role: '',
-                    phone: '',
-                    email: '',
+                    user_info__chinese_name: '',
+                    user_info__addr: '',
+                    user_info__sex: '',
+                    user_info__telephone: '',
+                    user_info__phone: '',
                 },
                 ruleValidate: {
                     username: [
@@ -41,14 +47,13 @@
                     password: [
                         {required: true, message: '密码不能为空!', trigger: 'blur'},
                     ],
-                    /*roleId: [
-                        {required: true, message: '角色不能为空!', trigger: 'change'},
-                    ],*/
-                    email: [
-                        {required: true, message: '邮箱不能为空!', trigger: 'blur'},
-                        {type: 'email', message: '邮箱格式不正确!', trigger: 'blur'}
+                    user_info__chinese_name: [
+                        {required: true, message: '姓名不能为空!', trigger: 'blur'},
                     ],
-                    phone: [
+                    user_info__telephone: [
+                        {required: true, message: '电话不能为空!', trigger: 'blur'}
+                    ],
+                    user_info__phone: [
                         {required: true, message: '手机不能为空!', trigger: 'blur'}
                     ],
                 },
@@ -63,7 +68,7 @@
                     id: id
                 }
                 this.$axios.apipost(data, (response) => {
-                    this.roleList = response.data.data.roleList
+                    //this.roleList = response.data.data.roleList
                     if (response.data.data.user) {
                         this.formValidate = response.data.data.user
                     }

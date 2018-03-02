@@ -114,15 +114,15 @@ def user_list(request):
     # 查询条件
     if params['username']:  # 用户名称
         user_query_set = user_query_set.filter(username__icontains=params['username'])
-    if params['phone']:  # 手机号
-        user_query_set = user_query_set.filter(phone=params['phone'])
-    if params['email']:  # 邮箱
-        user_query_set = user_query_set.filter(email=params['email'])
+    if params['phone']:  # 电话号
+        user_query_set = user_query_set.filter(user_info__phone=params['phone'])
+    if params['telephone']:  # 手机号
+        user_query_set = user_query_set.filter(user_info__telephone=params['telephone'])
 
     # 数据查询字段
-    sql_keys = ['id', 'username', 'email', 'phone', 'role__name']
+    sql_keys = ['id', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone']
     # 返回前端字段
-    show_keys = ['id', 'username', 'email', 'phone', 'role']
+    show_keys = ['id', 'username', 'chinese_name','addr','sex','telephone','phone']
 
     # 获取分页数据
     results = common.get_paginate_data(params, user_query_set, sql_keys, show_keys)
@@ -152,10 +152,12 @@ def user_info(request):
     data = dict()
     if id:
         # 数据查询字段
-        sql_keys = ['id', 'password', 'username', 'email', 'phone', 'role']
+        sql_keys = ['id', 'password', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone']
+        # show_keys = ['id', 'password', 'username', 'chinese_name', 'addr', 'sex', 'telephone', 'phone']
         # 执行查询
         user_set = BeaconUser.objects.filter(id=id)
         data['user'] = user_set.values(*sql_keys).first()
+        #data['user'] = common.transform_array_column(data['user'],sql_keys,show_keys)
 
     # 角色列表
     roleList = list(Role.objects.all().values('id', 'name'))
@@ -184,9 +186,11 @@ def user_save(request):
     id = params.get('id', '')  # 编号
     username = params.get('username', '')  # 用户名
     password = params.get('password', '')  # 密码
-    phone = params.get('phone', '')  # 手机
-    email = params.get('email', '')  # 邮箱
-    role_id = params.get('role', '')  # 角色id
+    user_info__chinese_name = params.get('user_info__chinese_name', '')  # 手机
+    user_info__addr = params.get('user_info__addr', '')  # 邮箱
+    user_info__sex = params.get('user_info__sex', '')  # 角色id
+    user_info__telephone = params.get('user_info__telephone', '')  # 角色id
+    user_info__phone= params.get('user_info__phone', '')  # 角色id
 
     # 修改
     if id:
@@ -197,10 +201,14 @@ def user_save(request):
         # 密码加密
         if password and password != beacon_user.first().password:
             password = make_password(password, None)
+        user_info_id = beacon_user.values_list('user_info_id')
+        user_info = UserInfo.objects.filter(id = user_info_id)
         # 用户角色对象
-        role = Role.objects.get(id=role_id)
+            #role = Role.objects.get(id=role_id)
         # 执行更新
-        beacon_user.update(username=username, password=password, phone=phone, email=email, role=role)
+        user_info.update(chinese_name=user_info__chinese_name, addr=user_info__addr, sex=user_info__sex
+                           ,telephone = user_info__telephone,phone=user_info__phone)
+        beacon_user.update(username=username, password=password)
 
     # 新增
     else:
@@ -208,10 +216,13 @@ def user_save(request):
         if BeaconUser.objects.filter(username=username).last():
             return return_code.USER_NAME_ERROR
 
-        role = Role.objects.get(id=role_id)
+            #role = Role.objects.get(id=role_id)
         # 执行新增
-        beacon_user = BeaconUser(username=username, password=make_password(password, None), phone=phone, email=email,
-                                 role=role)
+        user_info = UserInfo(chinese_name=user_info__chinese_name, addr=user_info__addr, sex=user_info__sex
+                           ,telephone = user_info__telephone,phone=user_info__phone)
+        user_info.save()
+        user_info_id = user_info.id
+        beacon_user = BeaconUser(username=username, password=make_password(password, None),user_info_id= user_info_id)
         beacon_user.save()
 
     # 返回前端数据
@@ -236,10 +247,12 @@ def user_delete(request):
     ids = params.get('ids', '')  # 编号
     # 需删除id数组
     id_list = ids.split(',')
-
     if id_list:
+        user_info_ids = BeaconUser.objects.filter(id__in=id_list).values_list('user_info_id')
         # 执行删除
-        BeaconUser.objects.filter(id__in=id_list).delete()
+        UserInfo.objects.filter(id__in=user_info_ids).delete()
+        # 执行删除
+        #BeaconUser.objects.filter(id__in=id_list).delete()
 
     # 返回前端数据
     return_data = dict()
