@@ -27,5 +27,14 @@ MENU_LIST = [
          {"code": "030003", "title": "编辑", "icon": "userEdit", "type": "2", "display": True,
           "action": "role_info,role_edit"},
          {"code": "030004", "title": "删除", "icon": "userDelete", "type": "2", "display": True, "action": "role_delete"},
-     ]}
+     ]},
+    {"code": "050000", "title": "组织机构", "icon": "organization", "type": "菜单", "display": True,
+        "children": [
+         {"code": "050001", "title": "列表", "icon": "organizationList", "type": "2", "display": True, "action": "organization_list"},
+         {"code": "050002", "title": "新增", "icon": "organizationEdit", "type": "2", "display": True,
+          "action": "organization_info,organization_edit"},
+         {"code": "050003", "title": "编辑", "icon": "organizationEdit", "type": "2", "display": True,
+          "action": "organization_info,organization_edit"},
+         {"code": "050004", "title": "删除", "icon": "organizationDelete", "type": "2", "display": True, "action": "organization_delete"},
+    ]}
 ]

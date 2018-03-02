@@ -20,14 +20,18 @@
                 }
                 this.$axios.apipost(data, (response) => {
                     //console.log(response.data.namelist);
-                    let a=this.toTreeData(response.data.namelist);
+                    let a=toTreeData(response.data.namelist);
                     console.log(a);
                     //this.children = response.data.data.namelist;
                 }, (err) => {
                     console.log(err);
                 })
             },
-            toTreeData(data) {
+
+        }
+    }
+
+    function  toTreeData(data) {
     let resData = data;
     let tree = [];
 
@@ -68,6 +72,4 @@
     }
     return tree;
 }
-        }
-    }
 </script>
