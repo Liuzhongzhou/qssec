@@ -2,7 +2,7 @@
     .realInfo{
         position: fixed;
         right: 0px;
-        top: 56px;
+        top: 46px;
         bottom: 1px;
         background: rgba(248,248,246,0.7);
         border: 1px solid #ccc;
