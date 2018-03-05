@@ -44,7 +44,7 @@
         }
     }
     .sidebar-menu-title-active{
-        background: #081016;
+        background: #2d323a;
         color: white;
     }
     .sidebar-menu-title-check{
@@ -70,14 +70,16 @@
             color: white;
         }
         .line{
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #2d323a;
         }
-        &-Bottom{
-            position: absolute;
-            top:calc(~"100% - 218px");
-            left: 0px;
-            width: 100%;
-            transition:all 0.5s;
+        .score{
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+            border-radius: 4px;
+            border: solid 1px #f5a623;
+            color: #f5a623;
+            line-height: 28px;
         }
     }
     .sidebar-wrap{
@@ -86,10 +88,6 @@
         left: 0px;
         width: 100%;
         transition:all 0.5s;
-        &-Bottom{
-            transform: translateY(-218px);
-            transition:all 0.5s;
-        }
     }
     .color-red .sidebar-box-middle{
         color: #d33131;
@@ -99,29 +97,27 @@
 </style>
 <template>
     <div class="sidebar font12">
-        <div class="title-user center p-t-20" :class="{'title-user-Bottom':!isfirst}">
+        <div class="title-user center p-t-20">
             <img src="../assets/image/login_bg.jpg" alt="">
             <p class="user p-t-10">系统管理员</p>
-            <p class=" p-t-10">{{timeNow}}</p>
             <p class=" p-t-10" ><span>上次登录：</span><span>2018-12-12 09:00</span></p>
-            <p class=" p-t-10" ><span>量化分数：</span><span>100</span></p>
+            <p class=" p-t-10" ><span class="score">100</span></p>
             <p class="line p-t-20"></p>
         </div>
-        <div class="sidebar-wrap" :class="{'sidebar-wrap-Bottom':!isfirst}">
-            <div class="title-box p-l-20 m-t-10">二级菜单</div>
+        <div class="sidebar-wrap" >
+            <div class="title-box p-l-20 m-t-10">菜单</div>
             <div class="sidebar-group" v-for="(list,index) in menu">
-                <a href="javascript:;" @click="checkMenu(list.name,list.children)">
+                <a href="javascript:;" @click="checkMenu(list.name,index)">
                     <div class="sidebar-menu-title title-box p-l-20 p-r-20 overHidden positionRL" :class="{'sidebar-menu-title-active':index == cur}">
                         <span :class="{'sidebar-menu-title-check':index == cur}"></span>
                         <Icon class="font14" :type="list.meta.icon"></Icon>
                         <span class="m-l-5">{{list.meta.title}}</span>
                         <span class="fRight" v-if="list.children">
-                            <Icon type="ios-arrow-up" v-if="index!=cur"></Icon>
-                            <Icon type="ios-arrow-down" v-if="index==cur"></Icon>
+                            <Icon type="ios-arrow-right"></Icon>
                         </span>
                     </div>
                 </a>
-                <ul class="sidebar-menu-content p-l-20 p-r-20" v-if="list.children && index == cur">
+                <!--<ul class="sidebar-menu-content p-l-20 p-r-20" v-if="list.children && index == cur">
                     <a href="javascript:;" @click="checkchildMenu(childindex,child.name)" v-for="(child,childindex) in list.children">
                         <li class="sidebar-box" :class="{'color-red':childCur == childindex}">
                             <div class="sidebar-box-item">
@@ -132,7 +128,7 @@
                             <span class="p-l-20">{{child.meta.title}}</span>
                         </li>
                     </a>
-                </ul>
+                </ul>-->
             </div>
         </div>
     </div>
@@ -143,15 +139,11 @@
             menu:{
                 type:Array,
             },
-            isfirst:{},
-            check:{
-
-            }
+            check:'',
         },
         data() {
             return {
-                childCur:-1,
-                timeNow:'',
+
             };
         },
         computed:{
@@ -168,28 +160,12 @@
             this.init();
         },
         methods: {
-            /*params  {index,list.name,}*/
-            checkMenu(name,child){
-                if(name == 'exit'){
-                    localStorage.clear();
-                    this.$router.push({'name':'login'});
-                }
-                if(!child) this.$router.push({'name':name});
-            },
-            checkchildMenu(index,name){
-                if(this.childCur == index){
-                    this.childCur = -1;
-                }else{
-                     this.childCur = index;
-                };
+            checkMenu(name,index){
                 this.$router.push({'name':name});
             },
             init(){
-                this.time();
+
             },
-            time(){
-                this.timeNow = this.$util.getTime('yearMonth');
-            }
         },
         components: {}
     };
