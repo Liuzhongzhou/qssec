@@ -7,7 +7,9 @@
 <script>
     export default {
         data () {
-
+            return {
+                organization:[],
+            }
         },
         mounted() {
             this.initAjax()
@@ -20,8 +22,8 @@
                 }
                 this.$axios.apipost(data, (response) => {
                     //console.log(response.data.namelist);
-                    let a=toTreeData(response.data.namelist);
-                    console.log(a);
+                    let a = toTreeData(response.data.namelist);
+                    this.organization = a;
                     //this.children = response.data.data.namelist;
                 }, (err) => {
                     console.log(err);
