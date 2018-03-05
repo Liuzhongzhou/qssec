@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import django.utils.timezone as timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from beacon_user.models import BeaconUser
 from beacon_app.models import App
+import django.utils.timezone as timezone
 
 
-class event(models.Model):
+class Event(models.Model):
     '''
     事件
     '''
@@ -22,29 +22,30 @@ class event(models.Model):
     target_ip = models.CharField(u'目的', max_length=20, null=True, blank=True)
     target_port = models.CharField(u'目的端口', max_length=8, null=True, blank=True)
     danger_level = models.IntegerField(u'严重等级', default=0)
-    comment = models.CharField(u'备注', max_length=256, default='', null=False)
+    comment = models.CharField(u'备注', max_length=256, default='', null=True, blank=True)
     status = models.IntegerField(u'事件状态 0-未签收 1-签收办理中 2-下发办理中 3-上报办理中 4-已办结', default=0)
+    file = models.CharField(u'附件', max_length=256, default='', null=True, blank=True)
     add_time = models.DateTimeField(u'创建日期', default=timezone.now)
 
     # 用户
-    user = models.ForeignKey(BeaconUser)
+    #user = models.ForeignKey('BeaconUser')
     user_name = models.CharField(u'用户名', max_length=50)
 
     class Meta:
         db_table = 't_event'
 
 
-class eventFlow(models.Model):
+class EventFlow(models.Model):
     '''
     事件流转
     '''
     flow_id = models.CharField(u'唯一编码', max_length=50, primary_key=True)
     # 关联事件表
-    event = models.ForeignKey('Event')
+    event_code = models.CharField(u'事件编码', max_length=50)
     flow_type = models.IntegerField(u'流转类型 1-下发 2-上报', default=1)
     flow_comment = models.CharField(u'流转备注', max_length=256, default='', null=False)
     # 关联用户表
-    flow_user = models.ForeignKey(BeaconUser)
+    #flow_user = models.ForeignKey('BeaconUser')
     flow_user_name = models.CharField(u'用户名', max_length=50)
     # 关联app
     flow_app = models.ForeignKey(App)
