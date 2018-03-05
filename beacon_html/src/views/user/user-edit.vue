@@ -12,6 +12,9 @@
         <FormItem label="地址信息" prop="addr">
             <Input v-model="formValidate.addr" placeholder="请输入地址信息"></Input>
         </FormItem>
+         <FormItem label="所属组织" prop="org">
+            <Input v-model="formValidate.org" placeholder="请选择组织"></Input>
+        </FormItem>
         <FormItem label="性别" prop="sex">
             <Input v-model="formValidate.sex" placeholder="请输入性别"></Input>
         </FormItem>
@@ -20,6 +23,9 @@
         </FormItem>
         <FormItem label="手机" prop="phone">
             <Input v-model="formValidate.phone" placeholder="请输入手机号码"></Input>
+        </FormItem>
+         <FormItem label="角色" prop="role">
+            <Input v-model="formValidate.role" placeholder="请选择角色"></Input>
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
@@ -39,6 +45,8 @@
                     sex: '',
                     telephone: '',
                     phone: '',
+                    role: '',
+                    org: '',
                 },
                 ruleValidate: {
                     username: [
