@@ -96,18 +96,6 @@ const menuConfig = [
                     num: '2-1'
                 },
                 component: (resolve) => require(['./views/organization/organization.vue'], resolve),
-            },
-            {
-                path: '/system/edit',
-                name: 'organizationEdit',
-                meta: {
-                    icon: 'ios-navigate',
-                    title: '编辑',
-                    level: '1',
-                    pid: 'system',
-                    hide:true,
-                },
-                component: (resolve) => require(['./views/organization/organization-edit.vue'], resolve),
             }
         ]
     },
