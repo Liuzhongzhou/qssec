@@ -307,7 +307,7 @@
       for (let i = 0; i < chiArr.length; i++) {
         for (let j = 0; j < resData.length; j++) {
           if (chiArr[i].value === resData[j][attributes.parentId]) {
-            let obj = aa{
+            let obj = {
               value: resData[j][attributes.id],
               label: resData[j][attributes.name],
               children: []
