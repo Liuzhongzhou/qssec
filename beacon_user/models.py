@@ -33,9 +33,6 @@ class UserInfo(models.Model):
     type = models.IntegerField(u'用户类型', default=0)
     add_time = models.DateTimeField(u'添加日期', default=timezone.now)
 
-    # 关联组织
-    org = models.ForeignKey('Organization', blank=True, null=True)
-
     class Meta:
         db_table = 't_user_info'
 
@@ -84,6 +81,7 @@ class Organization(models.Model):
     组织机构
     '''
     name = models.CharField(u"组织名称", max_length=128)
+    city = models.ForeignKey(City, blank=True, null=True, related_name='city')
     pid = models.IntegerField(u"父")
     class Meta:
         db_table = 't_organization'

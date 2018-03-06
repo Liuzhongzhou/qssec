@@ -570,7 +570,8 @@ def organization_save(request):
     id = params.get('id', '')  # 编号
     name = params.get('name', '')  # 组织机构名称
     pid = params.get('pid', '')  # 父ID
-
+    print(id)
+    print(name)
     # 修改
     if id:
         organization = Organization.objects.filter(id=id)
@@ -599,22 +600,50 @@ def organization_delete(request):
     :return:
     """
     params = json.loads(request.body)
+    # 验证form
+    form = OrganizationForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+
+    id = params.get('id', '')  # 编号
+
+    if id:
+        # 执行删除
+        Organization.objects.filter(id=id).delete()
+        Organization.objects.filter(pid=id).delete()
+
+    # 返回前端数据
+    return_data = dict()
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+
+
+def city_list(request):
+    """
+        城市列表
+        :param request:
+        :return:
+        """
+    params = json.loads(request.body)
 
     # 验证form
     form = OrganizationForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
-    ids = params.get('ids', '')  # 编号
-    # 需删除id数组
-    id_list = ids.split(',')
-
-    if id_list:
-        # 执行删除
-        Organization.objects.filter(id__in=id_list).delete()
-
+    organization_query_list = Organization.objects.values_list('id', 'name', 'pid')
+    namelist = []
+    for organization in organization_query_list:
+        obj = dict()
+        obj['id'] = organization[0]
+        obj['name'] = organization[1]
+        obj['pid'] = organization[2]
+        namelist.append(obj)
     # 返回前端数据
     return_data = dict()
+    return_data['namelist'] = namelist
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
+
+
 
