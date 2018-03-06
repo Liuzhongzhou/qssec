@@ -79,3 +79,9 @@ NO_USER = {
     'return_code': 205,
     'message': u'用户不存在'
 }
+
+# 组织机构名称已存在
+ORGANIZATION_NAME_ERROR = {
+    'return_code': 204,
+    'message': u'组织机构名称已存在'
+}

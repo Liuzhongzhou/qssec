@@ -575,7 +575,9 @@ def organization_save(request):
     id = params.get('id', '')  # 编号
     name = params.get('name', '')  # 组织机构名称
     pid = params.get('pid', '')  # 父ID
-
+    code = params.get('citycode', '')
+    city = City.objects.filter(code=code).first()
+    city_id = city.id
     # 修改
     if id:
         organization = Organization.objects.filter(id=id)
@@ -583,13 +585,13 @@ def organization_save(request):
         if not organization:
             return return_code.RETURN_ERROR
         # 执行更新
-        organization.update(name=name, pid=pid)
-        print(organization)
-        organization = organization.first()
-        print(organization)
+        organization.update(name=name, pcode=pid, city_id=city_id)
     # 新增
     else:
-        organization = Organization(name=name, pid=pid)
+        organization = Organization.objects.filter(name=name)
+        if organization:
+            return return_code.ORGANIZATION_NAME_ERROR
+        organization = Organization(name=name, pid=pid, city_id=city_id)
         # 执行新增
         organization.save()
     return_data = dict()
@@ -604,22 +606,50 @@ def organization_delete(request):
     :return:
     """
     params = json.loads(request.body)
-
     # 验证form
     form = OrganizationForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
-    ids = params.get('ids', '')  # 编号
-    # 需删除id数组
-    id_list = ids.split(',')
+    id = params.get('id', '')  # 编号
 
-    if id_list:
+    if id:
         # 执行删除
-        Organization.objects.filter(id__in=id_list).delete()
+        Organization.objects.filter(id=id).delete()
+        Organization.objects.filter(pid=id).delete()
 
     # 返回前端数据
     return_data = dict()
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
+
+
+def city_list(request):
+    """
+        城市列表
+        :param request:
+        :return:
+        """
+    params = json.loads(request.body)
+
+    # 验证form
+    form = CityForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+
+    city_query_list = City.objects.values_list('code', 'name', 'pcode')
+    citylist = []
+    for city in city_query_list:
+        obj = dict()
+        obj['value'] = city[0]
+        obj['label'] = city[1]
+        obj['pcode'] = city[2]
+        citylist.append(obj)
+    # 返回前端数据
+    return_data = dict()
+    return_data['citylist'] = citylist
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+
+
 
