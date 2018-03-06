@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+
 import django.utils.timezone as timezone
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+
 
 
 class App(models.Model):
@@ -31,3 +35,5 @@ class AppList(models.Model):
 
     class Meta:
         db_table = 't_app_list'
+
+
