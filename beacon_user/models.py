@@ -13,12 +13,16 @@ class BeaconUser(AbstractUser):
     user_info = models.OneToOneField('UserInfo', blank=True, null=True)
     # 关联角色表
     role = models.ForeignKey('Role', blank=True, null=True)
+    # 关联组织
+    org = models.ForeignKey('Organization', blank=True, null=True)
 
     class Meta(AbstractUser.Meta):
         db_table = 'auth_user'
 
 
 class UserInfo(models.Model):
+    '''
+    '''
     chinese_name = models.CharField(u'中文名称', max_length=100)
     img = models.CharField(u'照片', max_length=128)
     sex = models.IntegerField(u'性别 1-男 2-女', default=1)
@@ -83,5 +87,6 @@ class Organization(models.Model):
     name = models.CharField(u"组织名称", max_length=128)
     city = models.ForeignKey(City, blank=True, null=True, related_name='city')
     pid = models.IntegerField(u"父")
+
     class Meta:
         db_table = 't_organization'

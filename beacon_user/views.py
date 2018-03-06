@@ -120,9 +120,9 @@ def user_list(request):
         user_query_set = user_query_set.filter(user_info__telephone=params['telephone'])
 
     # 数据查询字段
-    sql_keys = ['id', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone']
+    sql_keys = ['id', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone','role__name','org__name']
     # 返回前端字段
-    show_keys = ['id', 'username', 'chinese_name','addr','sex','telephone','phone']
+    show_keys = ['id', 'username', 'chineseName','addr','sex','telephone','phone','role','org']
 
     # 获取分页数据
     results = common.get_paginate_data(params, user_query_set, sql_keys, show_keys)
@@ -152,17 +152,18 @@ def user_info(request):
     data = dict()
     if id:
         # 数据查询字段
-        sql_keys = ['id', 'password', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone']
-        # show_keys = ['id', 'password', 'username', 'chinese_name', 'addr', 'sex', 'telephone', 'phone']
+        sql_keys = ['id', 'password', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone','role__id','org__id']
+        show_keys = ['id', 'password', 'username', 'chineseName', 'addr', 'sex', 'telephone', 'phone','role','org']
         # 执行查询
         user_set = BeaconUser.objects.filter(id=id)
-        data['user'] = user_set.values(*sql_keys).first()
-        #data['user'] = common.transform_array_column(data['user'],sql_keys,show_keys)
+        data['user'] = common.transform_array_column(list(user_set.values(*sql_keys)),sql_keys,show_keys)[0]
 
     # 角色列表
     roleList = list(Role.objects.all().values('id', 'name'))
     data['roleList'] = roleList
-
+    # 组织列表
+    orgList = list(Organization.objects.all().values('id', 'name'))
+    data['orgList'] = orgList
     # 返回前端数据
     return_data = dict()
     return_data["data"] = data
@@ -186,11 +187,13 @@ def user_save(request):
     id = params.get('id', '')  # 编号
     username = params.get('username', '')  # 用户名
     password = params.get('password', '')  # 密码
-    user_info__chinese_name = params.get('user_info__chinese_name', '')  # 手机
-    user_info__addr = params.get('user_info__addr', '')  # 邮箱
-    user_info__sex = params.get('user_info__sex', '')  # 角色id
-    user_info__telephone = params.get('user_info__telephone', '')  # 角色id
-    user_info__phone= params.get('user_info__phone', '')  # 角色id
+    chineseName = params.get('chineseName', '')  # 姓名
+    addr = params.get('addr', '')  # 地址
+    sex = params.get('sex', '')  # 性别
+    telephone = params.get('telephone', '')  # 电话
+    phone= params.get('phone', '')  # 手机
+    role_id=params.get('role', '')  # 角色id
+    org_id = params.get('org', '')  # 组织id
 
     # 修改
     if id:
@@ -204,11 +207,13 @@ def user_save(request):
         user_info_id = beacon_user.values_list('user_info_id')
         user_info = UserInfo.objects.filter(id = user_info_id)
         # 用户角色对象
-            #role = Role.objects.get(id=role_id)
+        role = Role.objects.get(id=role_id)
+        # 所属组织对象
+        org = Organization.objects.get(id=org_id)
         # 执行更新
-        user_info.update(chinese_name=user_info__chinese_name, addr=user_info__addr, sex=user_info__sex
-                           ,telephone = user_info__telephone,phone=user_info__phone)
-        beacon_user.update(username=username, password=password)
+        user_info.update(chinese_name=chineseName, addr=addr, sex=sex
+                           ,telephone = telephone,phone=phone)
+        beacon_user.update(username=username, password=password,role=role,org=org)
 
     # 新增
     else:
@@ -216,13 +221,15 @@ def user_save(request):
         if BeaconUser.objects.filter(username=username).last():
             return return_code.USER_NAME_ERROR
 
-            #role = Role.objects.get(id=role_id)
+        role = Role.objects.get(id=role_id)
+        # 所属组织对象
+        org = Organization.objects.get(id=org_id)
         # 执行新增
-        user_info = UserInfo(chinese_name=user_info__chinese_name, addr=user_info__addr, sex=user_info__sex
-                           ,telephone = user_info__telephone,phone=user_info__phone)
+        user_info = UserInfo(chinese_name=chineseName, addr=addr, sex=sex
+                           ,telephone = telephone,phone=phone)
         user_info.save()
         user_info_id = user_info.id
-        beacon_user = BeaconUser(username=username, password=make_password(password, None),user_info_id= user_info_id)
+        beacon_user = BeaconUser(username=username, password=make_password(password, None),user_info_id= user_info_id,role=role,org=org)
         beacon_user.save()
 
     # 返回前端数据
@@ -244,13 +251,11 @@ def user_delete(request):
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
-    ids = params.get('ids', '')  # 编号
-    # 需删除id数组
-    id_list = ids.split(',')
-    if id_list:
-        user_info_ids = BeaconUser.objects.filter(id__in=id_list).values_list('user_info_id')
+    id = params.get('ids', '')  # 编号
+    if id:
+        user_info_id = BeaconUser.objects.filter(id=id).values_list('user_info_id')
         # 执行删除
-        UserInfo.objects.filter(id__in=user_info_ids).delete()
+        UserInfo.objects.filter(id=user_info_id).delete()
         # 执行删除
         #BeaconUser.objects.filter(id__in=id_list).delete()
 

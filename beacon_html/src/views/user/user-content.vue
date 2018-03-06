@@ -3,13 +3,12 @@
 </style>
 <template>
     <new-table :columnsList="columnsList" :dataTable="dataTable" :title="title"
-               :showNew="showNew" :showEdit="showEdit" :showDelete="showDelete" :showDownload="showDownload"
+               :showNew="showNew" :showEdit="showEdit" :showDelete="showDelete"
                @getPageData="getPageData" @newObj="newObj" @editObj="editObj" @deleteObj="deleteObj">
     </new-table>
 </template>
 <script>
     import newTable from '../../components/zzui-table.vue';
-
     export default {
         data() {
             return {
@@ -17,16 +16,16 @@
                 showNew: true,
                 showEdit: true,
                 showDelete: true,
-                showDownload: true,
                 dataTable: {},
                 columnsList: [
-                    {type: 'selection', width: 80, align: 'center', key: 'id'},
                     {title: '用户名称', key: 'username', sortable: true},
-                    {title: '姓名', key: 'chinese_name', sortable: true},
+                    {title: '姓名', key: 'chineseName', sortable: true},
                     {title: '地址信息', key: 'addr', sortable: true},
+                    {title: '所属部门', key: 'org', sortable: true},
                     {title: '性别', key: 'sex', sortable: true},
                     {title: '电话', key: 'telephone', sortable: true},
                     {title: '手机', key: 'phone', sortable: true},
+                    {title: '角色', key: 'role', sortable: true},
                 ]
             };
         },
@@ -41,7 +40,7 @@
             initAjax() {
                 let data = {
                     action: 'user_list'
-                }
+                };
                 if (this.form) {
                     Object.assign(data, this.form);
                 }

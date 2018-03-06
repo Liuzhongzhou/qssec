@@ -5,9 +5,12 @@
         position: relative;
         border-radius: 4px;
         overflow: hidden;
+        &-logo{
+            background: #333941;
+        }
         &-header{
-            height: 56px !important;
-            line-height: 56px !important;
+            height: 46px !important;
+            line-height: 46px !important;
             background: white !important;
             position: fixed;
             left: 0px;
@@ -32,22 +35,24 @@
             &-borderleft{
                 border-left: 1px solid #d3d8df;
                 line-height: 56px;
+                width: 46px;
             }
             &-borderight{
                 border-right: 1px solid #d3d8df;
-                line-height: 67px;
+                line-height: 57px;
+                width: 46px;
             }
         }
         &-slider{
             position: fixed !important;
             left: 0px;
-            top: 56px;
+            top: 46px;
             bottom: 0px;
             z-index: 999 !important;
-            background: #181d20 !important;
+            background: #333941 !important;
         }
         &-linear{
-            padding: 71px 15px 15px 195px;
+            padding: 61px 15px 15px 195px;
             background: #d3e6e7 !important;
             background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
             -webkit-background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
@@ -74,18 +79,17 @@
         <Layout :style="{minHeight: '100vh'}">
             <!--顶部导航-->
             <Header class="layout-header overHidden">
-                <div class="layout-logo fLeft W180 bg-red h56 center">
+                <div class="layout-logo fLeft W180 h46 center">
                     <img src="../assets/image/logo.png" alt="">
                 </div>
-                <!--缩小菜单按钮-->
-                <!--<a href="javascript:;">
-                    <div class="displayIB fLeft W70 center layout-header-borderight">
+                <a href="javascript:;">
+                    <div class="displayIB fLeft center layout-header-borderight">
                         <Icon type="navicon" class="color-black font28"></Icon>
                     </div>
-                </a>-->
+                </a>
                 <div class="layout-nav fLeft p-l-15 positionRL">
-                    <a href="javascript:;" @click="navMovePush(list,index)" :key="index" v-for="(list,index) in menu">
-                        <div class="layout-navItem displayIB W80 h56 center" :class="{'color-red':index == navIndex}">
+                    <a href="javascript:;" @click="navMovePush(list,index)" :key="index" v-if="list.meta.hide != true" v-for="(list,index) in formatChildmenu">
+                        <div class="layout-navItem displayIB W80 h46 center" :class="{'color-red':index == navIndex}">
                             <Icon :type="list.meta.icon"></Icon>
                             <span>{{list.meta.title}}</span>
                         </div>
@@ -93,16 +97,16 @@
                     <span class="layout-header-navline bg-red W70 positionAB" :style="{'left':moveLeft}"></span>
                 </div>
                 <a href="javascript:;" @click="showMask">
-                    <div class="displayIB fRight W70 center layout-header-borderleft">
+                    <div class="displayIB fRight center layout-header-borderleft">
                         <Badge count="19" class-name="layout-header-badge">
-                            <Icon type="android-notifications-none" class="color-black font28"></Icon>
+                            <Icon type="android-notifications-none" class="color-black font26"></Icon>
                         </Badge>
                     </div>
                 </a>
             </Header>
             <!--自定义菜单组件-->
             <layout class="layout-slider">
-                <zzui-slider :menu="childmenu" :check="routerName" :isfirst="first"></zzui-slider>
+                <zzui-slider :menu="menu" :check="routerName"></zzui-slider>
             </layout>
             <!--中部内容+右侧导航-->
             <Layout class="layout-linear overHidden">
@@ -142,6 +146,7 @@
                 },
                 moveLeft:'20px',
                 childmenu:[],
+                formatChildmenu:[],
                 routerName:'',
                 first:true,
             }
@@ -185,27 +190,34 @@
             * */
             navMove(name){
                 let index = 0;
-                for(let i=0;i<this.menu.length;i++){
-                    if(name == this.menu[i].name){
+                this.formatChildmenu = [];
+                for(let i=0;i<this.childmenu.length;i++){
+                    if(!this.childmenu[i].meta.hide){
+                        this.formatChildmenu.push(this.childmenu[i]);
+                    }
+                }
+                for(let i=0;i<this.formatChildmenu.length;i++){
+                    if(name == this.formatChildmenu[i].name){
                         index = i;
                     }
                 }
                this.moveLeft = index * 80+20+'px';
                this.navIndex = index;
-               this.childmenu = this.menu[index].children || [];
-               this.first = index == 0 ? true : false;
             },
             /*
             * 定位跳转
             * */
             navMovePush(params){
-                this.changeRouter(params);
                 this.$router.push({'name':params.name});
             },
             changeRouter(params){
-                this.routerName = params.name;
-                let name = params.meta.pid || params.name;
-                this.navMove(name);
+                this.routerName = params.meta.pid || params.name;
+                for(let i=0;i<this.menu.length;i++){
+                    if(this.menu[i].name == this.routerName){
+                        this.childmenu = this.menu[i].children;
+                    }
+                }
+                this.navMove(params.name);
             }
         },
         watch:{

@@ -19,143 +19,97 @@ const menuConfig = [
                 icon: 'ios-navigate',
                 title: '首页',
                 level: '1',
-                num: '1'
+                num: '1',
+                pid: 'index',
             },
             component: (resolve) => require(['./views/home.vue'], resolve),
+        }]
         },
-            {
-                path: '/home/user',
-                name: 'usr',
-                meta: {
-                    icon: 'ios-navigate',
-                    title: '个人资料',
-                    level: '1',
-                    pid: 'home',
-                    num: '1-1'
-                },
-                component: (resolve) => require(['./views/home.vue'], resolve),
-            },
-            {
-                path: '/login',
-                name: 'exit',
-                meta: {
-                    icon: 'ios-navigate',
-                    title: '退出',
-                    level: '1',
-                    pid: 'home',
-            }
-        },]
-    },
     {
-        path: '/user',
-        name: 'user',
+        path: '/system',
+        name: 'system',
         meta: {
             icon: 'settings',
             title: '用户页',
             level: '1',
             num: '2'
         },
-        redirect: '/user/user',
+        redirect: '/system/user',
         component: Index,
         children: [
             {
-                path: '/user/user',
+                path: '/system/user',
                 name: 'userlist',
                 meta: {
                     icon: 'ios-navigate',
                     title: '用户',
                     level: '1',
-                    pid: 'user',
+                    pid: 'system',
                     num: '2-1'
                 },
                 component: (resolve) => require(['./views/user/user.vue'], resolve),
             },
             {
-                path: '/user/edit',
+                path: '/system/edit',
                 name: 'userEdit',
                 meta: {
                     icon: 'ios-navigate',
                     title: '编辑',
                     level: '1',
-                    pid: 'user'
+                    pid: 'system',
+                    hide:true,
                 },
                 component: (resolve) => require(['./views/user/user-edit.vue'], resolve),
-            }
-        ]
-    },
-    {
-        path: '/role',
-        name: 'role',
-        meta: {
-            icon: 'settings',
-            title: '角色页',
-            level: '1',
-            num: '2'
-        },
-        redirect: '/role/role',
-        component: Index,
-        children: [
+            },
             {
-                path: '/role/role',
+                path: '/system/role',
                 name: 'rolelist',
                 meta: {
                     icon: 'ios-navigate',
                     title: '角色',
                     level: '1',
-                    pid: 'role',
+                    pid: 'system',
                     num: '2-1'
                 },
                 component: (resolve) => require(['./views/role/role.vue'], resolve),
             },
             {
-                path: '/role/edit',
+                path: '/system/edit',
                 name: 'roleEdit',
                 meta: {
                     icon: 'ios-navigate',
                     title: '编辑',
                     level: '1',
-                    pid: 'role'
+                    pid: 'system',
+                    hide:true,
                 },
                 component: (resolve) => require(['./views/role/role-edit.vue'], resolve),
+            },
+            {
+                path: '/system/organization',
+                name: 'organizationList',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '组织机构',
+                    level: '1',
+                    pid: 'system',
+                    num: '2-1'
+                },
+                component: (resolve) => require(['./views/organization/organization.vue'], resolve),
+            },
+            {
+                path: '/system/edit',
+                name: 'organizationEdit',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '编辑',
+                    level: '1',
+                    pid: 'system',
+                    hide:true,
+                },
+                component: (resolve) => require(['./views/organization/organization-edit.vue'], resolve),
             }
         ]
-    },
-    {
-    path: '/organization',
-    name: 'organization',
-    meta: {
-        icon: 'settings',
-        title: '组织机构',
-        level: '1',
-        num: '2'
-    },
-    redirect: '/organization/organization',
-    component: Index,
-    children: [
-        {
-            path: '/organization/organization',
-            name: 'organizationList',
-            meta: {
-                icon: 'ios-navigate',
-                title: '组织机构',
-                level: '1',
-                pid: 'organization',
-                num: '2-1'
-            },
-            component: (resolve) => require(['./views/organization/organization.vue'], resolve),
-        },
-        {
-            path: '/organization/edit',
-            name: 'organizationEdit',
-            meta: {
-                icon: 'ios-navigate',
-                title: '编辑',
-                level: '1',
-                pid: 'organization'
-            },
-            component: (resolve) => require(['./views/organization/organization-edit.vue'], resolve),
-        }
-     ]
     },
     {
         path: '/test',
