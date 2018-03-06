@@ -5,3 +5,6 @@ from beacon_user.views import \
     role_list, role_info, role_save, role_delete, \
     organization_list, organization_delete, organization_save, \
     menu_list, my_menu,city_list
+
+from beacon_app.views import *
+
