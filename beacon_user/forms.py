@@ -74,3 +74,12 @@ class MenuListForm(PageForm):
 # 组织机构列表
 class OrganizationForm(PageForm):
     name = forms.CharField(max_length=128, required=False)
+    city = forms.CharField(max_length=128, required=False)
+
+
+# 城市列表
+class CityForm(PageForm):
+    code = forms.CharField(max_length=128, required=False)
+    name = forms.CharField(max_length=128, required=False)
+    type = forms.IntegerField(required=False)
+    pcode = forms.CharField(max_length=128, required=False)

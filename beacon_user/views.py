@@ -575,8 +575,9 @@ def organization_save(request):
     id = params.get('id', '')  # 编号
     name = params.get('name', '')  # 组织机构名称
     pid = params.get('pid', '')  # 父ID
-    print(id)
-    print(name)
+    code = params.get('citycode', '')
+    city = City.objects.filter(code=code).first()
+    city_id = city.id
     # 修改
     if id:
         organization = Organization.objects.filter(id=id)
@@ -584,13 +585,13 @@ def organization_save(request):
         if not organization:
             return return_code.RETURN_ERROR
         # 执行更新
-        organization.update(name=name, pid=pid)
-        print(organization)
-        organization = organization.first()
-        print(organization)
+        organization.update(name=name, pcode=pid, city_id=city_id)
     # 新增
     else:
-        organization = Organization(name=name, pid=pid)
+        organization = Organization.objects.filter(name=name)
+        if organization:
+            return return_code.ORGANIZATION_NAME_ERROR
+        organization = Organization(name=name, pid=pid, city_id=city_id)
         # 执行新增
         organization.save()
     return_data = dict()
@@ -632,21 +633,21 @@ def city_list(request):
     params = json.loads(request.body)
 
     # 验证form
-    form = OrganizationForm(params)
+    form = CityForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
-    organization_query_list = Organization.objects.values_list('id', 'name', 'pid')
-    namelist = []
-    for organization in organization_query_list:
+    city_query_list = City.objects.values_list('code', 'name', 'pcode')
+    citylist = []
+    for city in city_query_list:
         obj = dict()
-        obj['id'] = organization[0]
-        obj['name'] = organization[1]
-        obj['pid'] = organization[2]
-        namelist.append(obj)
+        obj['value'] = city[0]
+        obj['label'] = city[1]
+        obj['pcode'] = city[2]
+        citylist.append(obj)
     # 返回前端数据
     return_data = dict()
-    return_data['namelist'] = namelist
+    return_data['citylist'] = citylist
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
 
