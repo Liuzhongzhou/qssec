@@ -77,6 +77,24 @@ class OrganizationForm(PageForm):
     city = forms.CharField(max_length=128, required=False)
 
 
+
+# 组织机构保存
+class OrganizationSaveForm(PageForm):
+    name = forms.CharField(max_length=128)
+    citycode = forms.CharField(max_length=128)
+    pid = forms.IntegerField()
+
+
+# 组织机构详情
+class OrganizationInfoForm(PageForm):
+    id = forms.IntegerField()
+
+
+# 组织机构删除
+class OrganizationDelForm(PageForm):
+    id = forms.IntegerField()
+
+
 # 城市列表
 class CityForm(PageForm):
     code = forms.CharField(max_length=128, required=False)

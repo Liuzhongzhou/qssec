@@ -568,7 +568,7 @@ def organization_save(request):
     params = json.loads(request.body)
 
     # 验证form
-    form = OrganizationForm(params)
+    form = OrganizationSaveForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
