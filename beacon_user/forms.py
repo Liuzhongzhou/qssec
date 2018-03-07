@@ -77,7 +77,6 @@ class OrganizationForm(PageForm):
     city = forms.CharField(max_length=128, required=False)
 
 
-
 # 组织机构保存
 class OrganizationSaveForm(PageForm):
     name = forms.CharField(max_length=128)

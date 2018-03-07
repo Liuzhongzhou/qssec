@@ -124,8 +124,35 @@ const menuConfig = [
                 component: (resolve) => require(['./views/api/api.vue'], resolve),
             }
         ]
+    },
+    {
+        path: '/fileUPload',
+        name: 'fileUPload',
+        meta: {
+            icon: 'settings',
+            title: '文件上传页',
+            level: '1',
+            num: '2'
+        },
+        redirect: '/file/fileUPload',
+        component: Index,
+        children: [
+            {
+                path: '/file/fileUPload',
+                name: 'fileUPload1',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '文件上传',
+                    level: '1',
+                    pid: 'test',
+                    num: '2-1'
+                },
+                component: (resolve) => require(['./views/file/fileUPload.vue'], resolve),
+            }
+        ]
     }
 ];
+
 
 const routers = [...menuConfig, {
     path: '/login',
