@@ -206,14 +206,23 @@ def user_save(request):
             password = make_password(password, None)
         user_info_id = beacon_user.values_list('user_info_id')
         user_info = UserInfo.objects.filter(id = user_info_id)
+
         # 用户角色对象
         role = Role.objects.get(id=role_id)
         # 所属组织对象
         org = Organization.objects.get(id=org_id)
-        # 执行更新
-        user_info.update(chinese_name=chineseName, addr=addr, sex=sex
+        if not user_info:
+            # 执行新增
+            user_info = UserInfo(chinese_name=chineseName, addr=addr, sex=sex
+                                 , telephone=telephone, phone=phone)
+            user_info.save()
+            user_info_id = user_info.id
+            beacon_user.update(username=username, password=password, role=role, org=org, user_info_id=user_info_id)
+        else:
+            # 执行更新
+            user_info.update(chinese_name=chineseName, addr=addr, sex=sex
                            ,telephone = telephone,phone=phone)
-        beacon_user.update(username=username, password=password,role=role,org=org)
+            beacon_user.update(username=username, password=password,role=role,org=org)
 
     # 新增
     else:
