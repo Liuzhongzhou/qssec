@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 import os
 
 DATABASES = {
@@ -29,17 +26,17 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 # 任务定义所在的模块
 CELERY_IMPORTS = ('beacon_rpc.tasks',)
 
-from celery.schedules import crontab
+from datetime import timedelta
 
 CELERYBEAT_SCHEDULE = {
     'test': {
         'task': 'beacon_rpc.tasks.test',
-        'schedule': crontab(minute="*/1"),
+        'schedule': timedelta(seconds=30),
         'args': ()
     },
     'app_list': {
         'task': 'beacon_rpc.tasks.app_list',
-        'schedule': crontab(minute="*/1"),
+        'schedule': timedelta(seconds=30),
         'args': ()
     }
 }
@@ -96,42 +93,42 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'console': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'propagate': True,
             'level': 'DEBUG',
         },
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'propagate': True,
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
         'django.db': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'django.request': {
-            'handlers': ['mail_admins', 'file'],
+            'handlers': ['mail_admins'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'beacon': {
-            'handlers': ['beacon', 'file'],
+            'handlers': ['beacon'],
             'level': 'INFO',
             'propagate': True,
         },
         'beacon_user': {
-            'handlers': ['beacon_user', 'file'],
+            'handlers': ['beacon_user'],
             'level': 'INFO',
             'propagate': True,
         },
         'beacon_rpc': {
-            'handlers': ['beacon_rpc', 'file'],
+            'handlers': ['beacon_rpc'],
             'level': 'INFO',
             'propagate': True,
         },
