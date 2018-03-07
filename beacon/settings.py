@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 """
 Django settings for beacon project.
 
@@ -132,4 +135,3 @@ try:
     from local_settings import *
 except ImportError:
     print("local_settings not found, run at default settings")
-
