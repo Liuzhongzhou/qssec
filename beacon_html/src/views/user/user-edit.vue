@@ -97,7 +97,7 @@
                         }
                         this.$axios.apipost(data, (response) => {
                             this.$Message.success('保存成功!');
-                            this.$router.push('/user');
+                            this.$router.push('/system/user');
                         }, (err) => {
                             console.log(err);
                         })
