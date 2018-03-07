@@ -82,6 +82,6 @@ NO_USER = {
 
 # 组织机构名称已存在
 ORGANIZATION_NAME_ERROR = {
-    'return_code': 204,
+    'return_code': 206,
     'message': u'组织机构名称已存在'
 }

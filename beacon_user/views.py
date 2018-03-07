@@ -568,6 +568,29 @@ def organization_list(request):
     return return_data
 
 
+def organization_info(request):
+    """
+    单个组织机构信息
+    :param request:
+    :return:
+    """
+    params = json.loads(request.body)
+
+    # 验证form
+    form = OrganizationInfoForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+
+    id = params.get('id', '')  # 编号
+    organization = Organization.objects.filter(id=id).first()
+
+    # 返回前端数据
+    return_data = dict()
+    return_data['organization'] = organization
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+
+
 def organization_save(request):
     """
     组织机构编辑
@@ -577,7 +600,7 @@ def organization_save(request):
     params = json.loads(request.body)
 
     # 验证form
-    form = OrganizationForm(params)
+    form = OrganizationSaveForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
@@ -616,7 +639,7 @@ def organization_delete(request):
     """
     params = json.loads(request.body)
     # 验证form
-    form = OrganizationForm(params)
+    form = OrganizationDelForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
