@@ -3,7 +3,6 @@
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 import os
-import settings
 
 DATABASES = {
     'default': {
@@ -24,7 +23,7 @@ CELERY_RESULT_BACKEND = 'redis://:adminxxx@192.168.12.23:6379/15'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = settings.TIME_ZONE
+CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
 # 任务定义所在的模块
@@ -44,7 +43,6 @@ CELERYBEAT_SCHEDULE = {
         'args': ()
     }
 }
-
 
 LOG_DIR = './'
 # LOG_DIR = 'E:/pywork/fort'

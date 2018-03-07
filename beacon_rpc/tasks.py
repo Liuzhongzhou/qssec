@@ -4,7 +4,7 @@ from celery import task
 from beacon_app.models import *
 import logging
 
-logger = logging.getLogger("rpc")
+logger = logging.getLogger("beacon_rpc")
 
 
 @task
