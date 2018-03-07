@@ -36,6 +36,8 @@ class UserEditForm(forms.Form):
     sex = forms.IntegerField()
     telephone = forms.CharField(max_length=20)
     phone = forms.CharField(max_length=11)
+    role = forms.IntegerField()
+    org = forms.IntegerField()
 
 
 # 用户删除
