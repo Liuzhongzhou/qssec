@@ -1,0 +1,4 @@
+celery==4.1.0
+Django==1.11.10
+django-celery==3.2.2
+pymongo==3.6.1
