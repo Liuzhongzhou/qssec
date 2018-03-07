@@ -8,6 +8,8 @@ from beacon_conf import return_code
 from models import *
 import common
 
+from django.http import JsonResponse
+
 logger = logging.getLogger('beacon_event')
 
 def event_list(request):
@@ -254,3 +256,17 @@ def eventFlow_save(request):
     return_data = dict()
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
+
+
+def eveln_file(request):
+    '''
+    文件上传
+    :param request:
+    :return:
+    '''
+    print '111111111111111111'
+
+    return_data = dict()
+    return_data['data'] = ''
+    return_data.update(return_code.RETURN_SUCCESS)
+    return JsonResponse(return_data, safe=False)

@@ -1,4 +1,6 @@
 #  -*- coding:utf-8 -*-
+import uuid
+
 
 def get_paginate_data(params, query_set, sql_keys=None, show_keys=None):
     """
@@ -56,6 +58,7 @@ def transform_array_column(list, old_column, new_column):
         data.append(tmp)
     return data
 
+
 def parse_js(expr):
     """
     解析非标准JSON的Javascript字符串，等同于json.loads(JSON str)
@@ -83,3 +86,19 @@ def parse_js(expr):
             raise NotImplementedError(node.__class__)
 
     return parse(a)
+
+
+def create_app_id():
+    '''
+    生成APP唯一
+    :return:
+    '''
+    return 'APP_' + str(uuid.uuid1()).replace('-', '')
+
+
+def create_event_id():
+    '''
+    生成EVENT唯一
+    :return:
+    '''
+    return 'EVENT_' + str(uuid.uuid1()).replace('-', '')
