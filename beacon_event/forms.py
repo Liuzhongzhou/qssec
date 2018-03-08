@@ -5,10 +5,10 @@ from beacon.forms import PageForm
 
 # 事件列表
 class EventListForm(PageForm):
-    eventName = forms.CharField(max_length=128, required=False)
+    event_name = forms.CharField(max_length=128, required=False)
 # 事件信息
 class EventInfoForm(forms.Form):
-    eventCode = forms.CharField(max_length=50)
+    event_code = forms.CharField(max_length=50)
 
 # 事件删除
 class EventDeleteForm(PageForm):
@@ -16,40 +16,40 @@ class EventDeleteForm(PageForm):
 
 # 事件新增 修改
 class EventEditForm(forms.Form):
-    eventCode = forms.CharField(max_length=50, required=False)
-    eventName = forms.CharField(max_length=128)
+    event_code = forms.CharField(max_length=50, required=False)
+    event_name = forms.CharField(max_length=128)
     type = forms.IntegerField()
     time = forms.DateTimeField()
-    urgentLevel = forms.IntegerField()
-    sourceIp = forms.CharField(max_length=20)
-    sourcePort = forms.CharField(max_length=8)
-    targetIp = forms.CharField(max_length=20)
-    targetPort = forms.CharField(max_length=8)
-    dangerLevel = forms.IntegerField()
+    urgent_level = forms.IntegerField()
+    source_ip = forms.CharField(max_length=20)
+    source_port = forms.CharField(max_length=8)
+    target_ip = forms.CharField(max_length=20)
+    target_port = forms.CharField(max_length=8)
+    danger_level = forms.IntegerField()
     comment = forms.CharField(max_length=256)
     status = forms.IntegerField()
     #file = forms.CharField(max_length=256)
-    userName = forms.CharField(max_length=50)
+    user_name = forms.CharField(max_length=50)
 
 # 事件流转列表
 class EventFlowListForm(PageForm):
-    flowUserName = forms.CharField(max_length=50, required=False)
+    flow_user_name = forms.CharField(max_length=50, required=False)
 
 #事件流转信息
 class EventFlowInfoForm(forms.Form):
-    flowId = forms.CharField(max_length=50)
+    flow_id = forms.CharField(max_length=50)
 
 #事件流转 新增 修改
 class EventFlowEditForm(forms.Form):
-    flowId = forms.CharField(max_length=50, required=False)
-    eventCode = forms.CharField(max_length=50)
-    flowType = forms.IntegerField()
-    flowComment = forms.CharField(max_length=256)
-    flowUserName = forms.CharField(max_length=50)
-    flowAppId = forms.CharField(max_length=50)
-    flowExamine = forms.IntegerField()
-    flowResult = forms.CharField(max_length=256)
-    flowStatus = forms.IntegerField()
+    flow_id = forms.CharField(max_length=50, required=False)
+    event_code = forms.CharField(max_length=50)
+    flow_type = forms.IntegerField()
+    flow_comment = forms.CharField(max_length=256)
+    flow_user_name = forms.CharField(max_length=50)
+    flow_app_id = forms.CharField(max_length=50)
+    flow_examine = forms.IntegerField()
+    flow_result = forms.CharField(max_length=256)
+    flow_status = forms.IntegerField()
 
 
 # 文件下载表单

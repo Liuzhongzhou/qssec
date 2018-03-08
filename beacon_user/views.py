@@ -122,7 +122,7 @@ def user_list(request):
     # 数据查询字段
     sql_keys = ['id', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone','role__name','org__name']
     # 返回前端字段
-    show_keys = ['id', 'username', 'chineseName','addr','sex','telephone','phone','role','org']
+    show_keys = ['id', 'username', 'chinese_name','addr','sex','telephone','phone','role','org']
 
     # 获取分页数据
     results = common.get_paginate_data(params, user_query_set, sql_keys, show_keys)
@@ -153,7 +153,7 @@ def user_info(request):
     if id:
         # 数据查询字段
         sql_keys = ['id', 'password', 'username','user_info__chinese_name','user_info__addr','user_info__sex','user_info__telephone','user_info__phone','role__id','org__id']
-        show_keys = ['id', 'password', 'username', 'chineseName', 'addr', 'sex', 'telephone', 'phone','role','org']
+        show_keys = ['id', 'password', 'username', 'chinese_name', 'addr', 'sex', 'telephone', 'phone','role','org']
         # 执行查询
         user_set = BeaconUser.objects.filter(id=id)
         data['user'] = common.transform_array_column(list(user_set.values(*sql_keys)),sql_keys,show_keys)[0]
@@ -187,7 +187,7 @@ def user_save(request):
     id = params.get('id', '')  # 编号
     username = params.get('username', '')  # 用户名
     password = params.get('password', '')  # 密码
-    chineseName = params.get('chineseName', '')  # 姓名
+    chinese_name = params.get('chinese_name', '')  # 姓名
     addr = params.get('addr', '')  # 地址
     sex = params.get('sex', '')  # 性别
     telephone = params.get('telephone', '')  # 电话
@@ -213,14 +213,14 @@ def user_save(request):
         org = Organization.objects.get(id=org_id)
         if not user_info:
             # 执行新增
-            user_info = UserInfo(chinese_name=chineseName, addr=addr, sex=sex
+            user_info = UserInfo(chinese_name=chinese_name, addr=addr, sex=sex
                                  , telephone=telephone, phone=phone)
             user_info.save()
             user_info_id = user_info.id
             beacon_user.update(username=username, password=password, role=role, org=org, user_info_id=user_info_id)
         else:
             # 执行更新
-            user_info.update(chinese_name=chineseName, addr=addr, sex=sex
+            user_info.update(chinese_name=chinese_name, addr=addr, sex=sex
                            ,telephone = telephone,phone=phone)
             beacon_user.update(username=username, password=password,role=role,org=org)
 
@@ -234,7 +234,7 @@ def user_save(request):
         # 所属组织对象
         org = Organization.objects.get(id=org_id)
         # 执行新增
-        user_info = UserInfo(chinese_name=chineseName, addr=addr, sex=sex
+        user_info = UserInfo(chinese_name=chinese_name, addr=addr, sex=sex
                            ,telephone = telephone,phone=phone)
         user_info.save()
         user_info_id = user_info.id
