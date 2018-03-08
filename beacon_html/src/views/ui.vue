@@ -17,16 +17,21 @@
     }
 </style>
 <template>
-    <div class="p-l-25 main">
 
+    <div class="p-l-25">
         <h3 class="tool-box">按钮</h3>
-        <zzui-btn class="btn-red">项目开发</zzui-btn>
-        <zzui-btn class="btn-disabled" type="wait"></zzui-btn>
+        <zzui-btn>项目开发</zzui-btn>
+        <zzui-btn @click="alert(1)" class="btn-red">项目开发</zzui-btn>
+        <zzui-btn class="btn-disabled" size="small" type="wait"></zzui-btn>
         <zzui-btn class="btn-disabled" type="over"></zzui-btn>
         <zzui-btn class="btn-disabled" type="get"></zzui-btn>
         <zzui-btn class="btn-disabled" type="out"></zzui-btn>
 
         <h3 class="tool-box">文件夹</h3>
+
+        <zzui-file @click="checkfile(0)" type="normal" :check="0 == index"></zzui-file>
+        <zzui-file @click="checkfile(1)" type="error" :check="1 == index"></zzui-file>
+
         <zzui-file type="normal"></zzui-file>
         <zzui-file type="error"></zzui-file>
 
@@ -48,6 +53,7 @@
         </p>
         <h3 class="tool-box">流程图展示</h3>
         <div id="treeCanvas" @click="change()"></div>
+
     </div>
 </template>
 <script>
@@ -57,6 +63,19 @@
     export default {
         data() {
             return {
+
+                index:0,
+            };
+        },
+        mounted() {
+        },
+        methods: {
+            checkfile(index){
+                this.index = index;
+            },
+            alert(index){
+                alert(index)
+
                 paper: '',
                 rect: ''
             };
@@ -235,6 +254,7 @@
                 var b = (x+w+r) +','+ (y-r);
                 var c = (x+w) +','+ (y+2);
                 var arrow = paper.path('M'+a+'H'+(x+w)+'A'+r+','+r+',0,0,0,'+b+'V'+(y-r-h)+'H'+(x+w+r+2)+'V'+(y-r)+'A'+(r+2)+','+(r+2)+',0,0,1,'+c+'H'+x+'Z').attr(attr);
+
             }
         },
         components: {

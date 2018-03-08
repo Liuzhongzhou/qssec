@@ -15,6 +15,11 @@ DATABASES = {
     }
 }
 
+MONGODBINFO = {
+    'ip': '192.168.12.37',
+    'port': 27017
+}
+
 import djcelery
 
 djcelery.setup_loader()

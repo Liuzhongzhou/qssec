@@ -274,6 +274,7 @@ html,body{width: 100%;height: 100%;}
 .font24{font-size: 24px !important;}
 .font26{font-size: 26px !important;}
 .font28{font-size: 28px !important;}
+.fontw{font-weight: 900}
 .fClear:after{ display:block; content:'\200B'; height:0; clear:both; font-size:0; }
 .bold{ font-weight:bold; }
 .overHidden{ overflow:hidden; }
@@ -284,6 +285,8 @@ html,body{width: 100%;height: 100%;}
 .title-box{height: 40px;line-height:40px;}
 .h50{height: 50px !important;}
 .h46{height: 46px !important;}
+.W260{width: 260px !important;}
+.W250{width: 250px !important;}
 .W240{width: 240px !important;}
 .W200{width: 200px !important;}
 .W180{width: 180px !important;}
@@ -293,6 +296,7 @@ html,body{width: 100%;height: 100%;}
 .W60{width: 60px !important;}
 .W70{width: 70px !important;}
 .bottomline{width: 100%;height: 1px;background: #d3d8df;}
+.dottedline{width: 100%;border: 1px dotted #d3d8df;height: 0px;}
 .positionAB{position: absolute;}
 .positionRL{position: relative;}
 
@@ -303,3 +307,19 @@ html,body{width: 100%;height: 100%;}
 .color-black{color: #252d38;}
 .bg-gray{background: #747b86;}
 .color-gray{color: #747b86;}
+
+/*全局滑动动画*/
+.bounce-enter-active {
+    animation: bounce-in .4s;
+  }
+  .bounce-leave-active{
+    animation: bounce-in .3s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: translate(100%);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
