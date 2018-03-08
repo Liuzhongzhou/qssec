@@ -15,7 +15,7 @@ logger = logging.getLogger('rpc')
 @required_rpc
 def rpc_app_list(request):
     '''
-    接口方法
+    接口获取应用列表
     :param request:
     :return:
     '''
@@ -45,6 +45,16 @@ def rpc_app_list(request):
     except Exception as e:
         logger.info(e)
         return error()
+
+
+@required_rpc
+def rpc_event_up(request):
+    '''
+    事件上报或下发
+    :param request:
+    :return:
+    '''
+    pass
 
 
 def ok(data):
