@@ -7,7 +7,6 @@ from forms import *
 from beacon_conf import return_code, mongodb
 from models import *
 import common
-
 from django.http import JsonResponse
 import bson.binary
 from pymongo import MongoClient
@@ -273,25 +272,37 @@ def upload_file(request):
     filename = str(request.FILES['file'])
     content = StringIO(file.read())
     # 保存
+    file_id = str(uuid.uuid1())
     coll.save(dict(
         content=bson.binary.Binary(content.getvalue()),
         filename=filename,
-        id=uuid.uuid1()
+        fileid=file_id
     ))
     # 返回前端数据
     return_data = dict()
+    return_data['file_id'] = file_id
     return_data.update(return_code.RETURN_SUCCESS)
     return JsonResponse(return_data, safe=False)
 
 
-# def getFile():
-#     client = MongoClient('192.168.12.37', 27017)
-#     # 获得一个database
-#     db = client.MongoFile
-#     # 获得一个collection
-#     coll = db.image
-#     data = coll.find_one({'filename': 'titanic_train.sql'})
-#     out = open('/Users/xiong/Desktop/777.txt'.decode('utf-8'), 'wb')
-#     out.write(data['content'])
-#     out.close()
-#     print "读取成功！！！"
+def download_file(request):
+    client = MongoClient(mongodb.MongodbInfo['ip'], mongodb.MongodbInfo['port'] )
+    params = json.loads(request.body)
+    fileid = params.get('fileid', '')
+    # 验证form
+    form = FileDownForm(params)
+    if not form.is_valid():
+        return return_code.API_REQUEST_PARM_ERROR
+    # 获得一个database
+    db = client.MongoFile
+    # 获得一个collection
+    coll = db.image
+    data = coll.find_one({"fileid": fileid})
+    filename = data['filename']
+    out = open(filename, 'wb')
+    out.write(data['content'])
+    out.close()
+    return_data = dict()
+    return_data.update(return_code.RETURN_SUCCESS)
+    return return_data
+

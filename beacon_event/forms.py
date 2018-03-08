@@ -50,3 +50,9 @@ class EventFlowEditForm(forms.Form):
     flow_examine = forms.IntegerField()
     flow_result = forms.CharField(max_length=256)
     flow_status = forms.IntegerField()
+
+
+# 文件下载表单
+class FileDownForm(forms.Form):
+    fileid = forms.CharField()
+
