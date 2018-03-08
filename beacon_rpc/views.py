@@ -54,7 +54,25 @@ def rpc_event_up(request):
     :param request:
     :return:
     '''
-    pass
+    try:
+        params = getattr(request, request.method)
+        if not params:
+            params = json.loads(request.body)
+
+        # 验证form
+        form = EventUpForm(params)
+        if not form.is_valid():
+            return error()
+        else:
+            data = params['data']
+            if data:
+                event_json = json.loads(base64.decodestring(data))
+                print event_json
+
+            return ok(data='ok')
+    except Exception as e:
+        logger.info(e)
+        return error()
 
 
 def ok(data):

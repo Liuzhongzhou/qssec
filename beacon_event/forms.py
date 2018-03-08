@@ -67,4 +67,5 @@ class FileDownForm(forms.Form):
 
 # 事件上传或下发
 class EventUpForm(forms.Form):
-    event_code = forms.CharField(max_length=50, required=False)
+    event_code = forms.CharField(max_length=50)
+    app_code = forms.CharField(max_length=50)

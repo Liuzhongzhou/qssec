@@ -108,13 +108,13 @@ def send_request(url=settings.MAIN_APP_LIST_URL, data={}, method='post'):
         try:
             response = requests.get(url, headers=headers)
         except requests.exceptions.ConnectionError as e:
-            return {}
+            return dict()
         return response.json()
     else:
         try:
             response = requests.post(url, data=json.dumps(data), headers=headers)
         except requests.exceptions.ConnectionError as e:
-            return {}
+            return dict()
         return response.json()
 
 

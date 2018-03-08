@@ -7,6 +7,7 @@ from forms import *
 from beacon_conf import return_code
 from models import *
 import common
+import base64
 from django.http import JsonResponse
 import bson.binary
 from pymongo import MongoClient
@@ -340,3 +341,24 @@ def event_up(request):
     form = EventUpForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
+
+    event_code = params.get('event_code', '')  # 事件编码
+    app_code = params.get('app_code', '')  # 应用编码
+
+    # 查询事件信息
+    event = Event.objects.filter(event_code=event_code).values().first()
+    evevt_flow_arr = list(EventFlow.objects.filter(event_code=event_code).values())
+    if evevt_flow_arr:
+        event['event_flows'] = evevt_flow_arr
+    # 封装事件信息
+    event_json = json.dumps(event, cls=common.DateEncoder)
+    event_json = base64.encodestring(event_json)  # 查询应用信息
+    app = App.objects.filter(app_code=app_code).values().first()
+    app_url = 'http://{}:{}/rpc/event_up/'.format(app['app_ip'], app['app_port'])
+    response = common.send_request(url=app_url, data={'data': event_json})
+    if response:
+        return response
+    else:
+        return_data = dict()
+        return_data.update(return_code.RETURN_ERROR)
+        return return_data
