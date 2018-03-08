@@ -30,19 +30,23 @@ def app_list(*args, **kwargs):
             data = base64.encodestring(json.dumps(app, cls=DateEncoder))
         # 向主节点发送请求
         response = send_request(data={'data': data})
-        # 成功
-        if response['return_code'] == 1:
-            if response['data']:
-                for app_obj in json.loads(base64.decodestring(response['data'])):
-                    app_list_obj, bool = AppList.objects.get_or_create(app_code=app_obj['app_code'])
-                    if bool or app_list_obj.add_time.strftime('%Y-%m-%d %H:%M:%S') != app_obj['add_time']:
-                        app_list_obj.add_time = app_obj['app_name']
-                        app_list_obj.app_ip = app_obj['app_ip']
-                        app_list_obj.app_port = app_obj['app_port']
-                        app_list_obj.city_code = app_obj['city_code']
-                        app_list_obj.add_time = app_obj['add_time']
-                        app_list_obj.save()
+        # 返回
+        if not response:
+            logger.error('访问主节点连接失败!')
         else:
-            logger.error(response['message'])
+            # 成功
+            if response['return_code'] == 1:
+                if response['data']:
+                    for app_obj in json.loads(base64.decodestring(response['data'])):
+                        app_list_obj, bool = AppList.objects.get_or_create(app_code=app_obj['app_code'])
+                        if bool or app_list_obj.add_time.strftime('%Y-%m-%d %H:%M:%S') != app_obj['add_time']:
+                            app_list_obj.add_time = app_obj['app_name']
+                            app_list_obj.app_ip = app_obj['app_ip']
+                            app_list_obj.app_port = app_obj['app_port']
+                            app_list_obj.city_code = app_obj['city_code']
+                            app_list_obj.add_time = app_obj['add_time']
+                            app_list_obj.save()
+            else:
+                logger.error(response['message'])
     except Exception as e:
         logger.error(e)

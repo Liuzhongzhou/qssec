@@ -28,7 +28,7 @@ class Event(models.Model):
     add_time = models.DateTimeField(u'创建日期', default=timezone.now)
 
     # 用户
-    #user = models.ForeignKey('BeaconUser')
+    user_id = models.IntegerField(u'用户编号', null=True, blank=True)
     user_name = models.CharField(u'用户名', max_length=50)
 
     class Meta:
@@ -45,7 +45,7 @@ class EventFlow(models.Model):
     flow_type = models.IntegerField(u'流转类型 1-下发 2-上报', default=1)
     flow_comment = models.CharField(u'流转备注', max_length=256, default='', null=False)
     # 关联用户表
-    #flow_user = models.ForeignKey('BeaconUser')
+    flow_user_id = models.IntegerField(u'用户编号', null=True, blank=True)
     flow_user_name = models.CharField(u'用户名', max_length=50)
     # 关联app
     flow_app = models.ForeignKey(App)
