@@ -1,31 +1,24 @@
 <style lang="less" scoped>
     .filewrap{
-        width: 202px;
-        height: 248px;
+        width: 180px;
         border-radius: 6px;
-        padding-left: 16px;
-        padding-top: 11px;
-        display: inline-block;
+        margin-right: 16px;
+        padding: 8px 8px 0px;
         cursor: pointer;
         border: dashed 2px transparent;
         &:hover{
              border: dashed 2px #f5a623;
         }
-        &:active{
-             border: dashed 2px #f5a623;
+        &-active{
+            border: dashed 2px #f5a623;
         }
         .filebg{
-            width: 166px;
-            height: 224px;
-            background: url("../assets/image/file.png") 0 0;
-            background-size: cover;
-            padding-top: 80px;
             text-align: center;
             position: relative;
             .filesign{
                 position: absolute;
-                left: -8px;
-                top: 11px;
+                left: -6px;
+                top: 8px;
                 color: #fff;
                 width: 64px;
                 height: 25px;
@@ -40,7 +33,7 @@
                     left: 0px;
                     top:-7px;
                     z-index: 0;
-                    border-left: 11px solid transparent;
+                    border-left: 9px solid transparent;
                 }
             }
             .filesign-error{
@@ -57,15 +50,44 @@
                      border-bottom: 8px solid #1b60cb;
                 }
             }
+            .filecontent{
+                position: absolute;
+                width: 80%;
+                left: 10%;
+                right: 8%;
+                bottom: 8%;
+                top: 32%;
+                color: #c9780b;
+                &-name{
+                    height: 36px;
+                }
+                &-time{
+                    margin-top: 5%;
+                }
+                &-type{
+                    margin-top: 5%;
+                }
+                &-btn{
+                    position: absolute;
+                    bottom: 0px;
+                    width: 100%;
+                }
+            }
         }
     }
 </style>
 <template>
-    <div class="filewrap">
+    <div @click="handleClick" class="filewrap" :style="{'width':width}" :class="{'filewrap-active':check}">
         <div class="filebg">
+            <img src="../assets/image/file.png" style="width: 100%;font-size: 0px" alt="">
             <div class="filesign filesign-error" v-if="type == 'error'">严重</div>
             <div class="filesign filesign-normal" v-if="type == 'normal'">一般</div>
-            <slot></slot>
+            <div class="filecontent">
+                <p class="filecontent-name"><slot name="name"></slot></p>
+                <p class="filecontent-time"><slot name="time"></slot></p>
+                <p class="filecontent-type"><slot name="type"></slot></p>
+                <p class="filecontent-btn"><slot name="btn"></slot></p>
+            </div>
         </div>
     </div>
 </template>
@@ -73,7 +95,9 @@
     export default {
         name: 'file',
         props: {
-            type:{}
+            type:{},
+            check:'',
+            width:'',
         },
         data() {
             return {};
@@ -81,7 +105,12 @@
         mounted() {
 
         },
-        methods: {},
+        methods: {
+            handleClick(event){
+                event.preventDefault();
+                this.$emit('click', event);
+            }
+        },
         components: {}
     };
 </script>
