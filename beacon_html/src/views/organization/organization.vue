@@ -2,7 +2,7 @@
 
 </style>
 <template>
-    <div>
+    <div class="p-20">
          <div>
              <Tree :data="organization" :render="renderContent"></Tree>
          </div>

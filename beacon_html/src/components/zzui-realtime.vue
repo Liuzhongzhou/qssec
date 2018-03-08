@@ -7,6 +7,7 @@
         background: rgba(248,248,246,0.7);
         border: 1px solid #ccc;
         z-index: 1;
+        overflow: auto;
         &::after{
             content: '';
             position: absolute;

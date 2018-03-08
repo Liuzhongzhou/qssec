@@ -4,7 +4,7 @@ const menuConfig = [
     {
         path: '/',
         name: 'index',
-        redirect: '/home',
+        redirect: '/home/sure',
         meta: {
             icon: 'ios-navigate',
             title: '首页',
@@ -13,13 +13,35 @@ const menuConfig = [
         },
         component: Index,
         children: [{
-            path: '/home',
+            path: '/home/sure',
             name: 'home',
             meta: {
                 icon: 'ios-navigate',
-                title: '首页',
+                title: '确凿事件',
                 level: '1',
-                num: '1',
+                num: '1-1',
+                pid: 'index',
+            },
+            component: (resolve) => require(['./views/home.vue'], resolve),
+        },{
+            path: '/home/really',
+            name: 'really',
+            meta: {
+                icon: 'ios-navigate',
+                title: '疑似事件',
+                level: '1',
+                num: '1-2',
+                pid: 'index',
+            },
+            component: (resolve) => require(['./views/home.vue'], resolve),
+        },{
+            path: '/home/report',
+            name: 'report',
+            meta: {
+                icon: 'ios-navigate',
+                title: '上报事件',
+                level: '1',
+                num: '1-3',
                 pid: 'index',
             },
             component: (resolve) => require(['./views/home.vue'], resolve),
@@ -50,13 +72,13 @@ const menuConfig = [
                 component: (resolve) => require(['./views/user/user.vue'], resolve),
             },
             {
-                path: '/system/edit',
+                path: '/system/user/edit',
                 name: 'userEdit',
                 meta: {
                     icon: 'ios-navigate',
                     title: '编辑',
                     level: '1',
-                    pid: 'system',
+                    pid: 'userlist',
                     hide:true,
                 },
                 component: (resolve) => require(['./views/user/user-edit.vue'], resolve),
@@ -74,13 +96,13 @@ const menuConfig = [
                 component: (resolve) => require(['./views/role/role.vue'], resolve),
             },
             {
-                path: '/system/edit',
+                path: '/system/role/edit',
                 name: 'roleEdit',
                 meta: {
                     icon: 'ios-navigate',
                     title: '编辑',
                     level: '1',
-                    pid: 'system',
+                    pid: 'rolelist',
                     hide:true,
                 },
                 component: (resolve) => require(['./views/role/role-edit.vue'], resolve),
