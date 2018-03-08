@@ -1,4 +1,10 @@
 #  -*- coding:utf-8 -*-
+import uuid
+import requests
+from django.conf import settings
+import json
+import datetime
+
 
 def get_paginate_data(params, query_set, sql_keys=None, show_keys=None):
     """
@@ -56,6 +62,7 @@ def transform_array_column(list, old_column, new_column):
         data.append(tmp)
     return data
 
+
 def parse_js(expr):
     """
     解析非标准JSON的Javascript字符串，等同于json.loads(JSON str)
@@ -83,3 +90,57 @@ def parse_js(expr):
             raise NotImplementedError(node.__class__)
 
     return parse(a)
+
+
+def send_request(url=settings.MAIN_APP_LIST_URL, data={}, method='post'):
+    '''
+    发送request请求
+    :param url:
+    :param data:
+    :param method:
+    :return:
+    '''
+    headers = {'Connection': 'close', 'Content-Type': 'application/json'}
+    if method == 'get':
+        for k, v in data.items():
+            url += '?' + k + '=' + v + '&'
+        url = url[0: len(url) - 1]
+        try:
+            response = requests.get(url, headers=headers)
+        except requests.exceptions.ConnectionError as e:
+            return {}
+        return response.json()
+    else:
+        try:
+            response = requests.post(url, data=json.dumps(data), headers=headers)
+        except requests.exceptions.ConnectionError as e:
+            return {}
+        return response.json()
+
+
+def create_app_id():
+    '''
+    生成APP唯一
+    :return:
+    '''
+    return 'APP_' + str(uuid.uuid1()).replace('-', '')
+
+
+def create_event_id():
+    '''
+    生成EVENT唯一
+    :return:
+    '''
+    return 'EVENT_' + str(uuid.uuid1()).replace('-', '')
+
+
+class DateEncoder(json.JSONEncoder):
+    '''
+    格式化json中时间
+    '''
+
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            return json.JSONEncoder.default(self, obj)

@@ -19,7 +19,7 @@
                 dataTable: {},
                 columnsList: [
                     {title: '用户名称', key: 'username', sortable: true},
-                    {title: '姓名', key: 'chineseName', sortable: true},
+                    {title: '姓名', key: 'chinese_name', sortable: true},
                     {title: '地址信息', key: 'addr', sortable: true},
                     {title: '所属部门', key: 'org', sortable: true},
                     {title: '性别', key: 'sex', sortable: true},
