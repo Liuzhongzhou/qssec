@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
+# 主节点接口
+MAIN_APP_LIST_URL = 'http://127.0.0.1:8000/rpc/app_list/'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -17,7 +20,7 @@ import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'redis://:adminxxx@192.168.12.23:6379/15'
 CELERY_RESULT_BACKEND = 'redis://:adminxxx@192.168.12.23:6379/15'
-CELERY_ACCEPT_CONTENT = ['json']
+CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Shanghai'
@@ -28,6 +31,7 @@ CELERY_IMPORTS = ('beacon_rpc.tasks',)
 
 from datetime import timedelta
 
+'''
 CELERYBEAT_SCHEDULE = {
     'test': {
         'task': 'beacon_rpc.tasks.test',
@@ -40,6 +44,7 @@ CELERYBEAT_SCHEDULE = {
         'args': ()
     }
 }
+'''
 
 LOG_DIR = './'
 # LOG_DIR = 'E:/pywork/fort'
