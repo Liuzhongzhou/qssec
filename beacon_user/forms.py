@@ -31,7 +31,7 @@ class UserEditForm(forms.Form):
     id = forms.IntegerField(required=False)
     username = forms.CharField(max_length=30)
     password = forms.CharField(max_length=128)
-    chineseName = forms.CharField(max_length=100)
+    chinese_name = forms.CharField(max_length=100)
     addr = forms.CharField(max_length=256)
     sex = forms.IntegerField()
     telephone = forms.CharField(max_length=20)
