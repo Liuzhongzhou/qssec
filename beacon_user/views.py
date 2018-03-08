@@ -563,7 +563,9 @@ def organization_list(request):
         namelist.append(obj)
     # 返回前端数据
     return_data = dict()
-    return_data['namelist'] = namelist
+    data = dict()
+    data['namelist'] = namelist
+    return_data['data'] = data
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
 
@@ -581,12 +583,13 @@ def organization_info(request):
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
+    # 数据查询字段
+    sql_keys = ['id', 'name', 'pid', 'city_id']
     id = params.get('id', '')  # 编号
-    organization = Organization.objects.filter(id=id).first()
-
+    organization = Organization.objects.filter(id=id)
     # 返回前端数据
     return_data = dict()
-    return_data['organization'] = organization
+    return_data['data'] = organization.values(*sql_keys).first()
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
 
@@ -679,7 +682,9 @@ def city_list(request):
         citylist.append(obj)
     # 返回前端数据
     return_data = dict()
-    return_data['citylist'] = citylist
+    data = dict()
+    data['citylist'] = citylist
+    return_data['data'] = data
     return_data.update(return_code.RETURN_SUCCESS)
     return return_data
 
