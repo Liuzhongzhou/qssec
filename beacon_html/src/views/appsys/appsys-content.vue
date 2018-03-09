@@ -4,11 +4,11 @@
 <template>
     <new-table :columnsList="columnsList" :dataTable="dataTable" :title="title"
                :showNew="showNew" :showEdit="showEdit" :showDelete="showDelete" :showDownload="showDownload"
-               @getPageData="getPageData" @newObj="newObj" @editObj="editObj" @deleteObj="deleteObj">
+               @getPageData="getPageData" @newObj="newObj" @editObj="editObj" >
     </new-table>
 </template>
 <script>
-    import newTable from '../../components/zzui-table.vue';
+    import newTable from '../../components/appsys-table';
 
     export default {
         data() {

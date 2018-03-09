@@ -1,21 +1,21 @@
 <template>
-    <Form ref="formValidate" :model="formValidate" :appsys="appsysValidate" :label-width="80">
+    <Form ref="appsysValidate" :model="appsysValidate" :appsys="appsysValidate" :label-width="80">
         <FormItem label="应用系统名" prop="app_name" >
-            <Input v-model="formValidate.name" placeholder="请输入应用系统名称"></Input>
+            <Input v-model="appsysValidate.name" placeholder="请输入应用系统名称"></Input>
         </FormItem>
          <FormItem label="ip地址" prop="app_ip">
-            <Input v-model="formValidate.name" placeholder="请输入ip地址"></Input>
+            <Input v-model="appsysValidate.name" placeholder="请输入ip地址"></Input>
         </FormItem>
          <FormItem label="端口" prop="app_port">
-            <Input v-model="formValidate.name" placeholder="请输入端口"></Input>
+            <Input v-model="appsysValidate.name" placeholder="请输入端口"></Input>
         </FormItem>
          <FormItem label="所属地市" prop="city_code">
-            <Input v-model="formValidate.name" placeholder="请输入所属地市"></Input>
+            <Input v-model="appsysValidate.name" placeholder="请输入所属地市"></Input>
         </FormItem>
 
         <FormItem>
-            <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
-            <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+            <Button type="primary" @click="handleSubmit('appsysValidate')">提交</Button>
+            <Button type="ghost" @click="handleReset('appsysValidate')" style="margin-left: 8px">重置</Button>
         </FormItem>
     </Form>
 </template>
@@ -24,11 +24,6 @@
         data() {
             return {
                 menudata: [],
-                formValidate: {
-                    name: '',
-                    comment: '',
-                    menus: ''
-                },
                 appsysValidate: {
                     app_name: [
                         {required: true, message: '应用系统名称不能为空!', trigger: 'blur'}
@@ -54,11 +49,9 @@
                 }
                 this.$axios.apipost(data, (response) => {
                     if (response.data.data) {
-                        this.formValidate = response.data.data;
+                        this.appsysValidate = response.data.data;
+                         console.log(this.appsysValidate)
                     }
-                    this.$nextTick(() => {
-                        this.checkChange();
-                    });
                 }, (err) => {
                     console.log(err);
                 })
@@ -69,8 +62,8 @@
                         let data = {
                             action: 'appsys_save'
                         }
-                        if (this.formValidate) {
-                            data = Object.assign(data, this.formValidate);
+                        if (this.appsysValidate) {
+                            data = Object.assign(data, this.appsysValidate);
                         }
                         this.$axios.apipost(data, (response) => {
                             this.$Message.success('保存成功!');
@@ -86,17 +79,6 @@
             handleReset(name) {
                 this.$refs[name].resetFields();
             },
-            checkChange() {
-                let nodes = this.$refs.tree.getCheckedNodes();
-                let codes = '';
-                if (nodes.length) {
-                    nodes.forEach(function (i, index) {
-                        codes += ((index > 0 ? ',' : '') + i.code)
-                    })
-                }
-                this.formValidate.menus = codes;
-            },
-
         },
         mounted() {
             this.init();
