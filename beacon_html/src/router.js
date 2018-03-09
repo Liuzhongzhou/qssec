@@ -121,6 +121,45 @@ const menuConfig = [
             }
         ]
     },
+      {
+        path: '/appsys',
+        name: 'appsys',
+        meta: {
+            icon: 'settings',
+            title: '应用系统页',
+            level: '1',
+            num: '3'
+        },
+        redirect: '/appsys/appsys',
+        component: Index,
+        children: [
+            {
+                path: '/appsys/appsys',
+                name: 'appsyslist',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '应用系统',
+                    level: '1',
+                    pid: 'appsys',
+                    num: '3-1'
+                },
+                component: (resolve) => require(['./views/appsys/appsys.vue'], resolve),
+            },
+            {
+                path: '/appsys/appsys/edit',
+                name: 'appsysEdit',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '编辑',
+                    level: '1',
+                    pid: 'appsysedit',
+                    hide:true,
+                },
+                component: (resolve) => require(['./views/appsys/appsys-edit.vue'], resolve),
+            },
+        ]
+    },
+
     {
         path: '/test',
         name: 'test',
@@ -128,7 +167,7 @@ const menuConfig = [
             icon: 'settings',
             title: '接口测试页',
             level: '1',
-            num: '2'
+            num: '4'
         },
         redirect: '/test/test',
         component: Index,
@@ -141,7 +180,7 @@ const menuConfig = [
                     title: '接口测试页',
                     level: '1',
                     pid: 'test',
-                    num: '2-1'
+                    num: '4-1'
                 },
                 component: (resolve) => require(['./views/api/api.vue'], resolve),
             }
@@ -154,7 +193,7 @@ const menuConfig = [
             icon: 'settings',
             title: '文件上传页',
             level: '1',
-            num: '2'
+            num: '5'
         },
         redirect: '/file/fileUPload',
         component: Index,
@@ -166,8 +205,9 @@ const menuConfig = [
                     icon: 'ios-navigate',
                     title: '文件上传',
                     level: '1',
-                    pid: 'test',
-                    num: '2-1'
+                    pid: 'fileupload',
+                    num: '5-1'
+
                 },
                 component: (resolve) => require(['./views/file/fileUPload.vue'], resolve),
             }
