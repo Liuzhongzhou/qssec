@@ -36,5 +36,13 @@ MENU_LIST = [
          {"code": "050003", "title": "编辑", "icon": "organizationEdit", "type": "2", "display": True,
           "action": "organization_info,organization_edit"},
          {"code": "050004", "title": "删除", "icon": "organizationDelete", "type": "2", "display": True, "action": "organization_delete"},
-    ]}
+    ]},
+    {"code": "060000", "title": "应用系统", "icon": "user", "type": "1", "display": True,
+     "children": [
+         {"code": "060001", "title": "列表", "icon": "userList", "type": "2", "display": True, "action": "appsys_list"},
+         {"code": "060002", "title": "新增", "icon": "userEdit", "type": "2", "display": True,
+          "action": "appsys_info,appsys_save"},
+         {"code": "060003", "title": "编辑", "icon": "userEdit", "type": "2", "display": True,
+          "action": "appsys_info,appsys_save"},
+     ]}
 ]
