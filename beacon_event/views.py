@@ -359,6 +359,11 @@ def event_up(request):
     event_json = json.dumps(event, cls=common.DateEncoder)
     event_json = base64.encodestring(event_json)  # 查询应用信息
     app = App.objects.filter(app_code=app_code).values().first()
+    # 应用未注册
+    if not app:
+        return_data = dict()
+        return_data.update(return_code.RETURN_ERROR)
+        return return_data
     app_url = 'http://{}:{}/rpc/event_up/'.format(app['app_ip'], app['app_port'])
     response = common.send_request(url=app_url, data={'data': event_json})
     if response:
