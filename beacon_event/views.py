@@ -5,6 +5,7 @@ import logging
 import json
 from forms import *
 from beacon_conf import return_code
+from beacon_app.models import *
 from models import *
 import common
 import base64
@@ -36,7 +37,8 @@ def event_list(request):
         event_query_set = event_query_set.filter(username__icontains=params['event_name'])
 
     # 数据查询字段
-    sql_keys = ['event_code', 'event_name', 'type', 'time', 'urgent_level', 'source_ip', 'source_port', 'target_ip',
+    sql_keys = ['event_code', 'event_name', 'event_type', 'time', 'urgent_level', 'source_ip', 'source_port',
+                'target_ip',
                 'target_port', 'danger_level', 'status', 'user_name']
 
     # 获取分页数据
@@ -67,7 +69,8 @@ def event_info(request):
     data = dict()
     if event_code:
         # 数据查询字段
-        sql_keys = ['event_code', 'event_name', 'type', 'time', 'urgent_level', 'source_ip', 'source_port', 'target_ip',
+        sql_keys = ['event_code', 'event_name', 'event_type', 'time', 'urgent_level', 'source_ip', 'source_port',
+                    'target_ip',
                     'target_port', 'danger_level', 'comment', 'status', 'user_name']
 
         # 执行查询
@@ -93,7 +96,7 @@ def event_save(request):
         return return_code.API_REQUEST_PARM_ERROR
     event_code = params.get('event_code', '')  # 唯一编码
     event_name = params.get('event_name', '')  # 事件名称
-    type = params.get('type', '')  # 事件类型 1-确凿类事件 2-疑似类事件 3-隐患/风险类事件'
+    event_type = params.get('event_type', '')  # 事件类型 1-确凿类事件 2-疑似类事件 3-隐患/风险类事件'
     time = params.get('time', '')  # 发生时间
     urgent_level = params.get('urgent_level', '')  # 紧急程度
     source_ip = params.get('source_ip', '')  # 源ip
@@ -114,7 +117,7 @@ def event_save(request):
             return return_code.RETURN_ERROR
         else:
             # 执行更新
-            beacon_event.update(event_name=event_name, type=type, time=time, urgent_level=urgent_level,
+            beacon_event.update(event_name=event_name, event_type=event_type, time=time, urgent_level=urgent_level,
                                 source_ip=source_ip, source_port=source_port, target_ip=target_ip,
                                 target_port=target_port,
                                 danger_level=danger_level, comment=comment, status=status, user_name=user_name)
@@ -122,7 +125,8 @@ def event_save(request):
     # 新增
     else:
         code = uuid.uuid1()
-        beacon_event = Event(event_code=code, event_name=event_name, type=type, time=time, urgent_level=urgent_level,
+        beacon_event = Event(event_code=code, event_name=event_name, event_type=event_type, time=time,
+                             urgent_level=urgent_level,
                              source_ip=source_ip, source_port=source_port, target_ip=target_ip, target_port=target_port,
                              danger_level=danger_level, comment=comment, status=status, user_name=user_name)
         beacon_event.save()
@@ -179,7 +183,7 @@ def event_flow_list(request):
         event_flow_query_set = event_flow_query_set.filter(flow_user_name__icontains=params['flow_user_name'])
 
     # 数据查询字段
-    sql_keys = ['flow_id', 'event_code', 'flow_type', 'flow_comment', 'flow_user_name', 'flow_app__name',
+    sql_keys = ['flow_code', 'event_code', 'flow_type', 'flow_comment', 'flow_user_name', 'app_code',
                 'flow_examine', 'flow_result', 'flow_status']
 
     # 获取分页数据
@@ -205,16 +209,16 @@ def event_flow_info(request):
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
 
-    flow_id = params.get('flow_id', '')  # 编号
+        flow_code = params.get('flow_code', '')  # 编号
 
     data = dict()
-    if flow_id:
+    if flow_code:
         # 数据查询字段
-        sql_keys = ['flow_id', 'event_code', 'flow_type', 'flow_comment', 'flow_user_name', 'flow_app__name',
+        sql_keys = ['flow_code', 'event_code', 'flow_type', 'flow_comment', 'flow_user_name', 'app_code',
                     'flow_examine', 'flow_result', 'flow_status']
 
         # 执行查询
-        data['event_flow'] = EventFlow.objects.filter(flow_id=flow_id).values(*sql_keys).first()
+        data['event_flow'] = EventFlow.objects.filter(flow_code=flow_code).values(*sql_keys).first()
     # 返回前端数据
     return_data = dict()
     return_data["data"] = data
@@ -234,12 +238,12 @@ def event_flow_save(request):
     form = EventFlowEditForm(params)
     if not form.is_valid():
         return return_code.API_REQUEST_PARM_ERROR
-    flow_id = params.get('flow_id', '')  # 唯一编码
+    flow_id = params.get('flow_code', '')  # 唯一编码
+    app_code = params.get('app_code', '')  # 关联app
     event_code = params.get('event_code', '')  # 事件编码
     flow_type = params.get('flow_type', '')  # 流转类型 1-下发 2-上报
     flow_comment = params.get('flow_comment', '')  # 流转备注
     flow_user_name = params.get('flow_user_name', '')  # 用户名
-    flow_app_id = params.get('flow_app_id', '')  # 关联app
     flow_examine = params.get('flow_examine', '')  # 是否需要审核 0-不需要 1-需要
     flow_result = params.get('flow_result', '')  # 反馈结果
     flow_status = params.get('flow_status', '')  # 流转状态 0-未签收 1-签收办理中 2-已办结 4-上报至其他应用于系统系统 5-下发至其他应用系统
@@ -251,18 +255,19 @@ def event_flow_save(request):
         if not beacon_event_flow:
             return return_code.RETURN_ERROR
         else:
-            app = App.objects.get(code=flow_app_id)
+            # app = App.objects.get(app_code=app_code)
             # 执行更新
             beacon_event_flow.update(event_code=event_code, flow_type=flow_type, flow_comment=flow_comment,
-                                     flow_user_name=flow_user_name, flow_app=app, flow_examine=flow_examine,
+                                     flow_user_name=flow_user_name, app_code=app_code, flow_examine=flow_examine,
                                      flow_result=flow_result, flow_status=flow_status)
 
     # 新增
     else:
         id = uuid.uuid1()
-        app = App.objects.get(code=flow_app_id)
-        beacon_event_flow = EventFlow(flow_id=id, event_code=event_code, flow_type=flow_type, flow_comment=flow_comment,
-                                      flow_user_name=flow_user_name, flow_app=app, flow_examine=flow_examine,
+        # app = App.objects.get(code=flow_app_id)
+        beacon_event_flow = EventFlow(flow_code=id, event_code=event_code, flow_type=flow_type,
+                                      flow_comment=flow_comment,
+                                      flow_user_name=flow_user_name, app_code=app_code, flow_examine=flow_examine,
                                       flow_result=flow_result, flow_status=flow_status)
         beacon_event_flow.save()
 

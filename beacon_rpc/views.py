@@ -8,8 +8,9 @@ from beacon_app.models import *
 from required_rpc import required_rpc
 from django.http import JsonResponse
 from beacon_rpc.forms import *
+from beacon_event.models import *
 
-logger = logging.getLogger('rpc')
+logger = logging.getLogger('beacon_rpc')
 
 
 @required_rpc
@@ -57,21 +58,74 @@ def rpc_event_up(request):
     try:
         params = getattr(request, request.method)
         if not params:
-            params = json.loads(request.body)
+            # params = json.loads(request.body)
 
-        # 验证form
-        form = EventUpForm(params)
-        if not form.is_valid():
-            return error()
-        else:
-            data = params['data']
-            if data:
-                event_json = json.loads(base64.decodestring(data))
-                print event_json
+            # 验证form
+            # form = EventUpForm(params)
+            # if not form.is_valid():
+            #    return error()
+            # else:
+            # data = params['data']
+            # if data:
+            data = 'eyJjb21tZW50IjogIjEyMyIsICJzdGF0dXMiOiAxLCAidGFyZ2V0X2lwIjogIjEyMzQiLCAidXNl\
+cl9pZCI6IG51bGwsICJmaWxlIjogIiIsICJldmVudF9uYW1lIjogIjEyMyIsICJ1c2VyX25hbWUi\
+OiAiMTIzIiwgInNvdXJjZV9pcCI6ICIxMjMiLCAiZGFuZ2VyX2xldmVsIjogMTIzLCAidXJnZW50\
+X2xldmVsIjogMTIzLCAidGFyZ2V0X3BvcnQiOiAiMTIzIiwgImV2ZW50X2NvZGUiOiAiMGRkYTM0\
+MjMtMjEyMy0xMWU4LWEwNWMtOGM4NTkwNzExYTAzIiwgInRpbWUiOiAiMjAxOC0wMy0wNiAxNzow\
+Njo1NiIsICJzb3VyY2VfcG9ydCI6ICIxMjMiLCAidHlwZSI6IDEyMywgImV2ZW50X2Zsb3dzIjog\
+W3siZmxvd191c2VyX25hbWUiOiAiYWRtaW4iLCAiZXZlbnRfY29kZSI6ICIwZGRhMzQyMy0yMTIz\
+LTExZTgtYTA1Yy04Yzg1OTA3MTFhMDMiLCAiZmxvd190eXBlIjogMSwgImZsb3dfcmVzdWx0Ijog\
+IjEiLCAiZmxvd191c2VyX2lkIjogbnVsbCwgImZsb3dfc3RhdHVzIjogMCwgImZsb3dfYXBwX2lk\
+IjogIjU0NGVlZTIxLTIxYmItMTFlOC05NjdmLWY4ZGEwYzY0M2NiYyIsICJmbG93X2V4YW1pbmUi\
+OiAwLCAiZmxvd19jb21tZW50IjogIjEiLCAiZmxvd19pZCI6ICI1ZDkxMzcyYi0yMWNmLTExZTgt\
+YmY0Yy04Yzg1OTA3MTFhMDMiLCAiYWRkX3RpbWUiOiAiMjAxOC0wMy0wNyAxNDoxODozNSJ9LCB7\
+ImZsb3dfdXNlcl9uYW1lIjogImFkbWluMSIsICJldmVudF9jb2RlIjogIjBkZGEzNDIzLTIxMjMt\
+MTFlOC1hMDVjLThjODU5MDcxMWEwMyIsICJmbG93X3R5cGUiOiAyLCAiZmxvd19yZXN1bHQiOiAi\
+MSIsICJmbG93X3VzZXJfaWQiOiBudWxsLCAiZmxvd19zdGF0dXMiOiAwLCAiZmxvd19hcHBfaWQi\
+OiAiNTQ0ZWVlMjEtMjFiYi0xMWU4LTk2N2YtZjhkYTBjNjQzY2JjIiwgImZsb3dfZXhhbWluZSI6\
+IDAsICJmbG93X2NvbW1lbnQiOiAiMSIsICJmbG93X2lkIjogImE4ZWQwNTk5LTIyNzktMTFlOC04\
+ZjQ5LThjODU5MDcxMWEwMyIsICJhZGRfdGltZSI6ICIyMDE4LTAzLTA4IDEwOjM3OjM1In1dLCAi\
+YWRkX3RpbWUiOiAiMjAxOC0wMy0wNiAxNzo0NTowNyJ9\
+'
+            event_json = json.loads(base64.decodestring(data))
+            if not event_json:
+                return error()
+            else:
+                event, bool = Event.objects.get_or_create(event_code=event_json['event_code'])
+                event.event_name = event_json['event_name']
+                event.type = event_json['type']
+                event.time = event_json['time']
+                event.urgent_level = event_json['urgent_level']
+                event.source_ip = event_json['source_ip']
+                event.source_port = event_json['source_port']
+                event.target_ip = event_json['target_ip']
+                event.target_port = event_json['target_port']
+                event.danger_level = event_json['danger_level']
+                event.comment = event_json['comment']
+                event.status = event_json['status']
+                event.file = event_json['file']
+                event.add_time = event_json['add_time']
+                event.user_id = event_json['user_id']
+                event.user_name = event_json['user_name']
+                event.save()
+                if 'event_flows' in event_json:
+                    for flow in event_json['event_flows']:
+                        event_flow, flow_bool = EventFlow.objects.get_or_create(flow_id=flow['flow_id'])
+                        event_flow.event_code = flow['event_code']
+                        event_flow.flow_type = flow['flow_type']
+                        event_flow.flow_comment = flow['flow_comment']
+                        event_flow.flow_user_id = flow['flow_user_id']
+                        event_flow.flow_user_name = flow['flow_user_name']
+                        event_flow.flow_app = flow['flow_app']
+                        event_flow.flow_examine = flow['flow_examine']
+                        event_flow.flow_result = flow['flow_result']
+                        event_flow.flow_status = flow['flow_status']
+                        event_flow.add_time = flow['add_time']
+                        event_flow.save()
+        return ok(data='ok')
 
-            return ok(data='ok')
     except Exception as e:
-        logger.info(e)
+        logger.error(e)
         return error()
 
 
