@@ -59,20 +59,6 @@
             -moz-background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
         }
     }
-    .bounce-enter-active {
-      animation: bounce-in .4s;
-    }
-    .bounce-leave-active{
-      animation: bounce-in .3s reverse;
-    }
-    @keyframes bounce-in {
-      0% {
-        transform: translate(100%);
-      }
-      100% {
-        transform: translate(0);
-      }
-    }
 </style>
 <template>
     <div class="layout">
@@ -111,7 +97,9 @@
             <!--中部内容+右侧导航-->
             <Layout class="layout-linear overHidden">
                 <Content>
-                    <Card class="font12"><slot name="content"></slot></Card>
+                    <!--事件处置平台流程图-->
+                    <div></div>
+                    <div :style="{minHeight: 'calc(100vh - 80px)',background:'white'}" class="font12"><slot name="content"></slot></div>
                 </Content>
                 <transition name="bounce">
                     <zzui-realtime v-show="show" :width="'260'" v-clickoutside="initMask">

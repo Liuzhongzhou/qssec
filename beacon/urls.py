@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from beacon import views as beacon_views
-from beacon_event.views import eveln_file
+from beacon_event.views import upload_file
 
 urlpatterns = [
     url(r'^admin2/', admin.site.urls),
@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^rpc/', include('beacon_rpc.urls', namespace='rpc')),
 
     # 文件上传
-    url(r'^file/', eveln_file),
+    url(r'^file/', upload_file),
 ]

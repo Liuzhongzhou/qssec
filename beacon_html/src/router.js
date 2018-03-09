@@ -207,6 +207,7 @@ const menuConfig = [
                     level: '1',
                     pid: 'fileupload',
                     num: '5-1'
+
                 },
                 component: (resolve) => require(['./views/file/fileUPload.vue'], resolve),
             }

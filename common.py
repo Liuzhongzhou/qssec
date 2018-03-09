@@ -1,5 +1,9 @@
 #  -*- coding:utf-8 -*-
 import uuid
+import requests
+from django.conf import settings
+import json
+import datetime
 
 
 def get_paginate_data(params, query_set, sql_keys=None, show_keys=None):
@@ -88,6 +92,32 @@ def parse_js(expr):
     return parse(a)
 
 
+def send_request(url=settings.MAIN_APP_LIST_URL, data={}, method='post'):
+    '''
+    发送request请求
+    :param url:
+    :param data:
+    :param method:
+    :return:
+    '''
+    headers = {'Connection': 'close', 'Content-Type': 'application/json'}
+    if method == 'get':
+        for k, v in data.items():
+            url += '?' + k + '=' + v + '&'
+        url = url[0: len(url) - 1]
+        try:
+            response = requests.get(url, headers=headers)
+        except requests.exceptions.ConnectionError as e:
+            return dict()
+        return response.json()
+    else:
+        try:
+            response = requests.post(url, data=json.dumps(data), headers=headers)
+        except requests.exceptions.ConnectionError as e:
+            return dict()
+        return response.json()
+
+
 def create_app_id():
     '''
     生成APP唯一
@@ -102,3 +132,15 @@ def create_event_id():
     :return:
     '''
     return 'EVENT_' + str(uuid.uuid1()).replace('-', '')
+
+
+class DateEncoder(json.JSONEncoder):
+    '''
+    格式化json中时间
+    '''
+
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            return json.JSONEncoder.default(self, obj)
