@@ -3,6 +3,7 @@
     .home{
         &-content{
             position: relative;
+            overflow: auto;
             min-height: calc(~'100vh - 120px');
         }
         &-info{
@@ -159,6 +160,7 @@
         data() {
             return {
                 select1:'',
+                select2:'',
                 show:false,
                 type:'sure',
                 eventInfo:''

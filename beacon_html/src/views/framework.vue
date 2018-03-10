@@ -62,7 +62,7 @@
 </style>
 <template>
     <div class="layout">
-        <Layout :style="{minHeight: '100vh'}">
+        <Layout>
             <!--顶部导航-->
             <Header class="layout-header overHidden">
                 <div class="layout-logo fLeft W180 h46 center">

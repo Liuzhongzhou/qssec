@@ -104,8 +104,8 @@
                         <span class="W60 displayIB">危险程度:</span>
                         <span v-if="!editing" class="W180 displayIB">{{formValidate.errorLevel}}</span>
                         <Select v-if="editing" v-model="formValidate.errorLevel" class="W180">
-                            <Option>一般</Option>
-                            <Option>危险</Option>
+                            <Option value="1" key="1">一般</Option>
+                            <Option value="2" key="2">危险</Option>
                         </Select>
                     </div>
                 </div>
