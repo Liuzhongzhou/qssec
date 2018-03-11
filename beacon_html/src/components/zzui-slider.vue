@@ -10,11 +10,16 @@
         background-color: #f5f7f9;
         z-index: 1;
         &-inner{
-            width: 605px;
+            width: 610px;
             overflow-x: hidden;
             overflow-y: auto;
             height: 100%;
-            padding-right: 20px;
+            padding-right: 10px;
+        }
+        &-center{
+            width: 585px;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         &-close{
             font-size: 20px;
@@ -29,7 +34,9 @@
     <div class="slider" :style="{'width':width}">
         <a href="javascript:;" @click="cancel"><Icon type="android-close" class="slider-close"></Icon></a>
         <div class="slider-inner">
-            <slot></slot>
+            <div class="slider-center">
+                <slot></slot>
+            </div>
         </div>
     </div>
 </template>
