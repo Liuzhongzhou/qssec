@@ -167,9 +167,9 @@
                     city : ''
                 };
                 this.$axios.apipost(data, (response) => {
-                                         console.log(response.data.data.namelist);
+                                         console.log(response.data.namelist);
 
-                    let data = response.data.data.namelist;
+                    let data = response.data.namelist;
                     // 属性配置信息
                     let attributes = {
                         id: 'id',
@@ -218,7 +218,7 @@
                     action: 'city_list'
                 };
                 this.$axios.apipost(data, (response) => {
-                    let data = response.data.data.citylist;
+                    let data = response.data.citylist;
                     // 属性配置信息
                     let attributes = {
                         id: 'value',

@@ -8,7 +8,7 @@
     </new-table>
 </template>
 <script>
-    import newTable from '../../components/appsys-table';
+    import newTable from './appsys-table';
 
     export default {
         data() {
@@ -44,7 +44,7 @@
                     Object.assign(data, this.form);
                 }
                 this.$axios.apipost(data, (response) => {
-                    this.dataTable = response.data.data;
+                    this.dataTable = response.data;
                 }, (err) => {
                     console.log(err);
                 })

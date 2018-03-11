@@ -1,6 +1,6 @@
 <style lang="less" scoped>
     .slider{
-        width: 575px;
+        width: 585px;
         position: absolute;
         top: 0px;
         right: 0px;
@@ -10,7 +10,7 @@
         background-color: #f5f7f9;
         z-index: 1;
         &-inner{
-            width: 595px;
+            width: 605px;
             overflow-x: hidden;
             overflow-y: auto;
             height: 100%;

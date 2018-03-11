@@ -27,7 +27,7 @@ ajax.install = ((Vue, options) => {
         post: (url, data, success, error) => {
             return axios.post(baseURL + url, data).then((res) => {
                 if (res.data && res.data.return_code == 1) {
-                    success(res);
+                    success(res.data);
                 } else if(res.data.return_code == '0'){
                     this.$router.push({'name':'login'})
                 } else {
@@ -40,7 +40,7 @@ ajax.install = ((Vue, options) => {
         apipost: (data, success, error) => {
             return axios.post(baseURL, data).then((res) => {
                 if (res.data && res.data.return_code == 1) {
-                    success(res);
+                    success(res.data);
                 } else if(res.data.return_code == '0'){
                     this.$router.push({'name':'login'})
                 } else {
