@@ -4,11 +4,10 @@
         position: absolute;
         top: 0px;
         right: 0px;
+        min-height: 100%;
         border-left: 1px solid #d3d8df;
         background-color: #f5f7f9;
         z-index: 1;
-        overflow-x: hidden;
-        overflow-y: auto;
         &-close{
             font-size: 20px;
             position: absolute;

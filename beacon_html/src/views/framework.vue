@@ -21,9 +21,9 @@
             box-shadow: 0 2px 3px 2px rgba(0,0,0,.1);
             &-navline{
                 height: 3px;
-                left: 20px;
+                width: 100%;
                 bottom: 0px;
-                transition: left 0.3s;
+                left: 0px;
             }
             &-badge{
                 min-width: 16px !important;
@@ -74,13 +74,7 @@
                     </div>
                 </a>
                 <div class="layout-nav fLeft p-l-15 positionRL">
-                    <a href="javascript:;" @click="navMovePush(list,index)" :key="index" v-if="list.meta.hide != true" v-for="(list,index) in formatChildmenu">
-                        <div class="layout-navItem displayIB W80 h46 center" :class="{'color-red':index == navIndex}">
-                            <Icon :type="list.meta.icon"></Icon>
-                            <span>{{list.meta.title}}</span>
-                        </div>
-                    </a>
-                    <span class="layout-header-navline bg-red W70 positionAB" :style="{'left':moveLeft}"></span>
+                    <zzui-tab :menu="childmenu" :check="checkRouter"></zzui-tab>
                 </div>
                 <a href="javascript:;" @click="showMask">
                     <div class="displayIB fRight center layout-header-borderleft">
@@ -118,6 +112,7 @@
     import {menuConfig} from '../router';
     import zzuiRealtime from '../components/zzui-realtime';
     import zzuiSlider from '../components/zzui-sidebar.vue';
+    import zzuiTab from '../components/zzui-tab.vue';
      import clickoutside from '../libs/clickoutside';
     export default {
         data() {
@@ -132,10 +127,10 @@
                     am:'',
                     hms:''
                 },
-                moveLeft:'20px',
                 childmenu:[],
                 formatChildmenu:[],
                 routerName:'',
+                checkRouter:'',
                 first:true,
             }
         },
@@ -176,36 +171,14 @@
             /*
             * 导航定位
             * */
-            navMove(name){
-                let index = 0;
-                this.formatChildmenu = [];
-                for(let i=0;i<this.childmenu.length;i++){
-                    if(!this.childmenu[i].meta.hide){
-                        this.formatChildmenu.push(this.childmenu[i]);
-                    }
-                }
-                for(let i=0;i<this.formatChildmenu.length;i++){
-                    if(name == this.formatChildmenu[i].name){
-                        index = i;
-                    }
-                }
-               this.moveLeft = index * 80+20+'px';
-               this.navIndex = index;
-            },
-            /*
-            * 定位跳转
-            * */
-            navMovePush(params){
-                this.$router.push({'name':params.name});
-            },
             changeRouter(params){
                 this.routerName = params.meta.pid || params.name;
                 for(let i=0;i<this.menu.length;i++){
                     if(this.menu[i].name == this.routerName){
-                        this.childmenu = this.menu[i].children;
+                        this.childmenu = this.menu[i].children || [];
                     }
                 }
-                this.navMove(params.name);
+                this.checkRouter = params.name;
             }
         },
         watch:{
@@ -215,7 +188,8 @@
         },
         components: {
             zzuiRealtime,
-            zzuiSlider
+            zzuiSlider,
+            zzuiTab
         }
     };
 </script>
