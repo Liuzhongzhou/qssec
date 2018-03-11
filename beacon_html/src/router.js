@@ -14,7 +14,7 @@ const menuConfig = [
         component: Index,
         children: [{
             path: '/home/sure',
-            name: 'home',
+            name: 'sure',
             meta: {
                 icon: 'ios-navigate',
                 title: '确凿事件',

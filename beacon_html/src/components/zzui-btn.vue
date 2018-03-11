@@ -26,6 +26,11 @@
             box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.3);
         }
     }
+    &-yellow{
+        background: #f6b952;
+        border-style: dashed;
+        border-color: brown;
+    }
     &-disabled{
         border: solid 1px #cacdd3;
         background-color: transparent;
@@ -41,7 +46,7 @@
         <span v-if="type == 'push'"><Icon type="android-upload" v-if="size!='small'" class="m-r-5"></Icon><span>上报</span></span>
         <span v-if="type == 'out'"><Icon type="shuffle" v-if="size!='small'" class="m-r-5"></Icon><span>下发</span></span>
         <span v-if="type == 'over'"><Icon type="ios-checkmark-outline" class="m-r-5" v-if="size!='small'"></Icon><span >办结</span></span>
-        <span v-if="type == 'wait'"><Icon type="ios-timer-outline" class="m-r-5" v-if="size!='small'"></Icon><span >待反馈</span></span>
+        <span v-if="type == 'wait'"><Icon type="android-time" class="m-r-5" v-if="size!='small'"></Icon><span >待反馈</span></span>
         <span v-if="type == 'edit'"><Icon type="ios-timer-outline" class="m-r-5" v-if="size!='small'"></Icon><span >编辑</span></span>
         <span v-if="type == 'save'"><Icon type="ios-timer-outline" class="m-r-5" v-if="size!='small'"></Icon><span >保存</span></span>
     </span>

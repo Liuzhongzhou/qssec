@@ -1,5 +1,5 @@
 <template>
-    <router-view style="min-width: 1360px;"></router-view>
+    <router-view></router-view>
 </template>
 <script>
     export default {
