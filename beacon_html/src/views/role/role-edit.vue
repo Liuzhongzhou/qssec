@@ -40,9 +40,9 @@
                     id: id
                 }
                 this.$axios.apipost(data, (response) => {
-                    this.menudata = response.data.data.menu_lists;
+                    this.menudata = response.data.menu_lists;
                     if (response.data.data.role) {
-                        this.formValidate = response.data.data.role;
+                        this.formValidate = response.data.role;
                     }
                     this.$nextTick(() => {
                         this.checkChange();

@@ -49,7 +49,7 @@
                 }
                 this.$axios.apipost(data, (response) => {
                     if (response.data.data) {
-                        this.appsysValidate = response.data.data;
+                        this.appsysValidate = response.data;
                          console.log(this.appsysValidate)
                     }
                 }, (err) => {

@@ -77,10 +77,8 @@
                 }
                 this.$axios.apipost(data, (response) => {
                     //this.roleList = response.data.data.roleList
-                    if (response.data.data.user) {
-                        console.log()
-                        this.formValidate = response.data.data.user
-                        console.log(this.formValidate)
+                    if (response.data.user) {
+                        this.formValidate = response.data.user;
                     }
                 }, (err) => {
                     console.log(err);

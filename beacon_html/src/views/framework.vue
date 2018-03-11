@@ -59,6 +59,7 @@
             bottom: 0px;
             z-index: 3;
             padding: 15px;
+            overflow: auto;
             background: #d3e6e7 !important;
             background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
             -webkit-background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;

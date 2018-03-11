@@ -255,7 +255,7 @@
                     event_code:code,
                 };
                 this.$axios.apipost(data, (response) => {
-                    this.eventInfo = response.data.data;
+                    this.eventInfo = response.data;
                 }, (err) => {
                     console.log(err);
                 })
@@ -263,12 +263,13 @@
             getFile(event){
                 console.log(event);
             },
-            editInfo(info){
+            editInfo(info,fn){
                 let data = {
                     action:'event_save',
                 };
                 data.assign(info);
                 /*this.$axios.apipost(data, (response) => {
+                    fn && fn();
                     this.$Message.info('保存成功');
                 }, (err) => {
                     console.log(err);

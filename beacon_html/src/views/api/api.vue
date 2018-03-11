@@ -39,7 +39,7 @@
                     if (valid) {
                         let data = eval('(' + this.formValidate.json + ')');
                         this.$axios.apipost(data, (response) => {
-                            this.content = JSON.stringify(response.data);
+                            this.content = JSON.stringify(response);
                         }, (err) => {
                             this.content = err;
                         })
