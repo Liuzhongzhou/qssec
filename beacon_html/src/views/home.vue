@@ -126,7 +126,7 @@
                         <span>4</span>
                     </a>
                 </div>
-                <div class="bottomline" v-if="module.nowDate"></div>
+                <div class="bottomline"></div>
                 <div class="home-box p-l-20 p-t-20" v-if="module.nowDate">
                     <div class="overHidden">
                         <zzui-file @click="showMask('code')" :check="code==true"  class="fLeft" width="18%" type="normal">

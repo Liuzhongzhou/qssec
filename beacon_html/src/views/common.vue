@@ -1,6 +1,7 @@
 <style lang="less" scoped>
     @bg-color : #eff1f4;
     .common{
+        position: relative;
         .header{
             padding: 20px;
         }

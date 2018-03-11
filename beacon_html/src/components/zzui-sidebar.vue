@@ -56,11 +56,6 @@
         bottom: 0px;
     }
     .title-user{
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        transition:all 0.5s;
         img{
             width: 60px;
             height: 60px;
@@ -97,7 +92,10 @@
 </style>
 <template>
     <div class="sidebar font12">
-        <div class="title-user center p-t-20">
+        <div class=" W180 h46 center">
+            <img src="../assets/image/logo.png" alt="">
+        </div>
+        <div class="title-user center">
             <img src="../assets/image/login_bg.jpg" alt="">
             <p class="user p-t-10">系统管理员</p>
             <p class=" p-t-10" ><span>上次登录：</span><span>2018-12-12 09:00</span></p>
