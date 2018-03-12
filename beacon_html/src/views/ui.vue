@@ -54,15 +54,13 @@
             带弧度的下折线：circleArrowBottom(x, y, 折线长度, 垂直长度, 弧度半径, paper, attr) 上折线同理 <br>
         </p>
         <h3 class="tool-box">流程图展示</h3>
-        <div id="treeCanvas" @click="change()"></div>
-
+        <div id="treeCanvas"></div>
     </div>
 </template>
 <script>
     import zzuiBtn from '../components/zzui-btn.vue';
     import zzuiFile from '../components/zzui-file.vue';
-    import Raphael from 'raphael'
-
+    import Raphael from 'raphael';
     export default {
         data() {
             return {
@@ -190,11 +188,14 @@
                 /*带弧度的上折线*/
                 var arrow = this.circleArrowTop(400, 240, 40, 20, 20, paper, attr);
                 paper.text(420, 220, '带弧度的上折线').attr(fontAttr);
+                var rect_a = paper.rect(400, 20, 80, 60, 6).attr(attr);
+                this.addCircleToRectRight(rect_a, 3,paper, attr);
+                this.addCircleToRectLeft(rect_a, 3, paper, attr);
             },
             /*方形字体剧中*/
-            rectTextCenter(rect, text, paper, fontAttr) {
-                var x = rect.attrs.x + rect.attrs.width / 2;
-                var y = rect.attrs.y + rect.attrs.height / 2;
+            rectTextCenter (rect, text, paper, fontAttr) {
+                var x = rect.attrs.x + rect.attrs.width/2;
+                var y = rect.attrs.y + rect.attrs.height/2;
                 paper.text(x, y, text).attr(fontAttr);
             },
             /*圆形形字体居中*/
@@ -249,12 +250,24 @@
                 return arrow;
             },
             /*带有弧度的上折线*/
-            circleArrowTop(x, y, w, h, r, paper, attr) {
-                var a = x + ',' + y;
-                var b = (x + w + r) + ',' + (y - r);
-                var c = (x + w) + ',' + (y + 2);
-                var arrow = paper.path('M' + a + 'H' + (x + w) + 'A' + r + ',' + r + ',0,0,0,' + b + 'V' + (y - r - h) + 'H' + (x + w + r + 2) + 'V' + (y - r) + 'A' + (r + 2) + ',' + (r + 2) + ',0,0,1,' + c + 'H' + x + 'Z').attr(attr);
-
+            circleArrowTop(x, y, w, h, r, paper, attr){
+                var a = x +','+ y;
+                var b = (x+w+r) +','+ (y-r);
+                var c = (x+w) +','+ (y+2);
+                var arrow = paper.path('M'+a+'H'+(x+w)+'A'+r+','+r+',0,0,0,'+b+'V'+(y-r-h)+'H'+(x+w+r+2)+'V'+(y-r)+'A'+(r+2)+','+(r+2)+',0,0,1,'+c+'H'+x+'Z').attr(attr);
+                return arrow;
+            },
+            addCircleToRectRight (rect, r, paper, attr) {
+                var x = rect.attrs.x + rect.attrs.width;
+                var y = rect.attrs.y + rect.attrs.height/2;
+                var circle = paper.circle(x, y, r).attr(attr);
+                return circle;
+            },
+            addCircleToRectLeft (rect, r, paper, attr) {
+                var x = rect.attrs.x;
+                var y = rect.attrs.y + rect.attrs.height/2;
+                var circle = paper.circle(x, y, r).attr(attr);
+                return circle;
             }
         },
         components: {
