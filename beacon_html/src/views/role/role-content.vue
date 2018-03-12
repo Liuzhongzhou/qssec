@@ -42,7 +42,7 @@
                     Object.assign(data, this.form);
                 }
                 this.$axios.apipost(data, (response) => {
-                    this.dataTable = response.data.data;
+                    this.dataTable = response.data;
                 }, (err) => {
                     console.log(err);
                 })

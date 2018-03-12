@@ -2,7 +2,7 @@
 
 </style>
 <template>
-    <div>
+    <div class="p-20">
         <div class="title-box">用户操作</div>
         <div class="bottomline m-b-10"></div>
         <div class="tool-box">

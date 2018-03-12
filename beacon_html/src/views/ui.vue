@@ -1,32 +1,39 @@
 <style lang="less">
-    #myCanvas{
+    #myCanvas {
         width: 600px;
         height: 300px;
         border: 1px solid #000;
     }
-    .treeIntroduce{
+
+    .treeIntroduce {
         font-size: 12px;
         border: 1px solid #000;
         background-color: lightblue;
         width: 600px;
     }
-    #treeCanvas{
+
+    #treeCanvas {
         width: 90%;
         border: 1px solid #000;
         height: 400px;
     }
 </style>
 <template>
-    <div class="p-l-25 main">
 
+    <div class="p-l-25">
         <h3 class="tool-box">按钮</h3>
-        <zzui-btn class="btn-red">项目开发</zzui-btn>
-        <zzui-btn class="btn-disabled" type="wait"></zzui-btn>
+        <zzui-btn>项目开发</zzui-btn>
+        <zzui-btn @click="alert(1)" class="btn-red">项目开发</zzui-btn>
+        <zzui-btn class="btn-disabled" size="small" type="wait"></zzui-btn>
         <zzui-btn class="btn-disabled" type="over"></zzui-btn>
         <zzui-btn class="btn-disabled" type="get"></zzui-btn>
         <zzui-btn class="btn-disabled" type="out"></zzui-btn>
 
         <h3 class="tool-box">文件夹</h3>
+
+        <zzui-file @click="checkfile(0)" type="normal" :check="0 == index"></zzui-file>
+        <zzui-file @click="checkfile(1)" type="error" :check="1 == index"></zzui-file>
+
         <zzui-file type="normal"></zzui-file>
         <zzui-file type="error"></zzui-file>
 
@@ -57,9 +64,19 @@
     export default {
         data() {
             return {
-                paper: '',
-                rect: ''
+
+                index: 0,
             };
+        },
+        mounted() {
+        },
+        methods: {
+            checkfile(index) {
+                this.index = index;
+            },
+            alert(index) {
+                alert(index)
+            }
         },
         mounted() {
             //setflow();
@@ -67,15 +84,15 @@
             this.treeCanvasInit();
         },
         methods: {
-            treeCanvasInit () {
+            treeCanvasInit() {
                 var attr = {
                     "fill": "#17A9C6", //filling with background color
                     "stroke": "#2A6570", // border color of the rectangle
                     "stroke-width": 2 // the width of the border
                 };
                 var fontAttr = {
-                    'font-size':'11',
-                    'fill':'blue'
+                    'font-size': '11',
+                    'fill': 'blue'
                 };
                 var arrowAttr = {
                     fill: "#5B9BD5",
@@ -131,26 +148,26 @@
                 var rect15 = paper.rect(1300, 160, 2, 60).attr(attr);
                 var arrow17 = this.createArrow(1301, 152, 8, 6, paper, attr).rotate(180);
             },
-            canvasInitModel () {
+            canvasInitModel() {
                 var attr = {
                     "fill": "#17A9C6", //filling with background color
                     "stroke": "#2A6570", // border color of the rectangle
                     "stroke-width": 2 // the width of the border
                 };
                 var fontAttr = {
-                    'font-size':'11',
-                    'fill':'blue'
+                    'font-size': '11',
+                    'fill': 'blue'
                 };
                 var paper = Raphael('myCanvas', 600, 300);
                 /*长方形*/
-                var rect1 = paper.rect(20, 20, 120, 40,6).attr(attr);
+                var rect1 = paper.rect(20, 20, 120, 40, 6).attr(attr);
                 this.rectTextCenter(rect1, '矩形', paper, fontAttr);
                 this.rect = rect1;
                 /*圆形*/
                 var cir = paper.circle(200, 40, 30).attr(attr);
                 this.circleTextCenter(cir, '圆形', paper, fontAttr);
                 /*椭圆形*/
-                var ellipse = paper.ellipse(320,50,60,40).attr(attr);
+                var ellipse = paper.ellipse(320, 50, 60, 40).attr(attr);
                 this.ellipseTextCenter(ellipse, '椭圆形', paper, fontAttr);
                 /*箭头*/
                 var arrow3 = this.createArrow(200, 140, 8, 10, paper, attr).rotate(180);
@@ -182,54 +199,54 @@
                 paper.text(x, y, text).attr(fontAttr);
             },
             /*圆形形字体居中*/
-            circleTextCenter (circle, text, paper, fontAttr) {
+            circleTextCenter(circle, text, paper, fontAttr) {
                 paper.text(circle.attrs.cx, circle.attrs.cy, text).attr(fontAttr);
             },
             /*椭圆形字体居中*/
-            ellipseTextCenter (ellipse, text, paper, fontAttr) {
+            ellipseTextCenter(ellipse, text, paper, fontAttr) {
                 paper.text(ellipse.attrs.cx, ellipse.attrs.cy, text).attr(fontAttr);
             },
             /*创建菱形*/
-            createDiamond (x, y, width, height, paper, attr) {
-                var firstStep = (x-width/2) +','+ y;
-                var secondStep = x +','+ (y-height/2);
-                var thirdStep = (x+width/2) +','+ y;
-                var forthStep = x +','+ (y+height/2);
-                var diamond = paper.path('M'+ firstStep +'L'+secondStep+'L'+thirdStep+'L'+forthStep+'Z').attr(attr);
+            createDiamond(x, y, width, height, paper, attr) {
+                var firstStep = (x - width / 2) + ',' + y;
+                var secondStep = x + ',' + (y - height / 2);
+                var thirdStep = (x + width / 2) + ',' + y;
+                var forthStep = x + ',' + (y + height / 2);
+                var diamond = paper.path('M' + firstStep + 'L' + secondStep + 'L' + thirdStep + 'L' + forthStep + 'Z').attr(attr);
                 return diamond;
             },
             /*菱形文字居中*/
-            diamondTextCenter (diamond, text, paper, fontAttr) {
+            diamondTextCenter(diamond, text, paper, fontAttr) {
                 var x = diamond.attrs.path[1][1];
                 var y = diamond.attrs.path[2][2];
                 paper.text(x, y, text).attr(fontAttr);
             },
             /*下折线*/
-            brokenLineBottom (x, y, w, h, paper, attr) {
-                var a = x +','+ y;
-                var arrow = paper.path('M'+a+'H'+(x+w)+'V'+(y+h)+'H'+(x+w-2)+'V'+(y+2)+'H'+x+'Z').attr(attr);
+            brokenLineBottom(x, y, w, h, paper, attr) {
+                var a = x + ',' + y;
+                var arrow = paper.path('M' + a + 'H' + (x + w) + 'V' + (y + h) + 'H' + (x + w - 2) + 'V' + (y + 2) + 'H' + x + 'Z').attr(attr);
                 return arrow;
             },
             /*上折线*/
-            brokenLineTop (x, y, w, h, paper, attr){
-                var a = x +','+ y;
-                var arrow = paper.path('M'+a+'H'+(x+w)+'V'+(y-h)+'H'+(x+w-2)+'V'+(y-2)+'H'+x+'Z').attr(attr);
+            brokenLineTop(x, y, w, h, paper, attr) {
+                var a = x + ',' + y;
+                var arrow = paper.path('M' + a + 'H' + (x + w) + 'V' + (y - h) + 'H' + (x + w - 2) + 'V' + (y - 2) + 'H' + x + 'Z').attr(attr);
                 return arrow;
             },
             /*箭头(等腰三角形)*/
-            createArrow (x, y, e, h,paper, attr) {
-                var a = (x-e/2) +','+ y;
-                var b = x +','+ (y+h);
-                var c = (x+e/2) +','+ y;
-                var arrow = paper.path('M'+a+'L'+b+'L'+c+'Z').attr(attr);
+            createArrow(x, y, e, h, paper, attr) {
+                var a = (x - e / 2) + ',' + y;
+                var b = x + ',' + (y + h);
+                var c = (x + e / 2) + ',' + y;
+                var arrow = paper.path('M' + a + 'L' + b + 'L' + c + 'Z').attr(attr);
                 return arrow;
             },
             /*带弧度的下折线*/
-            circleArrowBottom(x, y, w, h, r, paper, attr){
-                var a = x +','+ y;
-                var b = (x+w) +','+ (y+2);
-                var c = (x+w+r) +','+ (y+r);
-                var arrow = paper.path('M'+a+'H'+(x+w)+'A'+r+','+r+',0,0,1,'+c+'V'+(y+r+h)+'H'+(x+w+r-2)+'V'+(y+r)+'A'+(r-2)+','+(r-2)+',0,0,0,'+b+'H'+x+'Z').attr(attr);
+            circleArrowBottom(x, y, w, h, r, paper, attr) {
+                var a = x + ',' + y;
+                var b = (x + w) + ',' + (y + 2);
+                var c = (x + w + r) + ',' + (y + r);
+                var arrow = paper.path('M' + a + 'H' + (x + w) + 'A' + r + ',' + r + ',0,0,1,' + c + 'V' + (y + r + h) + 'H' + (x + w + r - 2) + 'V' + (y + r) + 'A' + (r - 2) + ',' + (r - 2) + ',0,0,0,' + b + 'H' + x + 'Z').attr(attr);
                 return arrow;
             },
             /*带有弧度的上折线*/

@@ -31,11 +31,13 @@ class UserEditForm(forms.Form):
     id = forms.IntegerField(required=False)
     username = forms.CharField(max_length=30)
     password = forms.CharField(max_length=128)
-    chineseName = forms.CharField(max_length=100)
+    chinese_name = forms.CharField(max_length=100)
     addr = forms.CharField(max_length=256)
     sex = forms.IntegerField()
     telephone = forms.CharField(max_length=20)
     phone = forms.CharField(max_length=11)
+    role = forms.IntegerField()
+    org = forms.IntegerField()
 
 
 # 用户删除
@@ -75,6 +77,23 @@ class MenuListForm(PageForm):
 class OrganizationForm(PageForm):
     name = forms.CharField(max_length=128, required=False)
     city = forms.CharField(max_length=128, required=False)
+
+
+# 组织机构保存
+class OrganizationSaveForm(PageForm):
+    name = forms.CharField(max_length=128)
+    citycode = forms.CharField(max_length=128)
+    pid = forms.IntegerField()
+
+
+# 组织机构详情
+class OrganizationInfoForm(PageForm):
+    id = forms.IntegerField()
+
+
+# 组织机构删除
+class OrganizationDelForm(PageForm):
+    id = forms.IntegerField()
 
 
 # 城市列表

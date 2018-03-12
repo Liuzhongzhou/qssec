@@ -160,14 +160,6 @@
                     ])
                 ]);
             },
-            append (data) {
-                const children = data.children || [];
-                children.push({
-                    title: 'appended node',
-                    expand: true
-                });
-                this.$set(data, 'children', children);
-            },
             initAjax() {
                 let data = {
                     action: 'organization_list',
@@ -175,6 +167,8 @@
                     city : ''
                 };
                 this.$axios.apipost(data, (response) => {
+                                         console.log(response.data.namelist);
+
                     let data = response.data.namelist;
                     // 属性配置信息
                     let attributes = {

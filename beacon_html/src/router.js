@@ -4,22 +4,44 @@ const menuConfig = [
     {
         path: '/',
         name: 'index',
-        redirect: '/home',
+        redirect: '/home/sure',
         meta: {
             icon: 'ios-navigate',
-            title: '首页',
+            title: '我的任务',
             level: '1',
             num: '1'
         },
         component: Index,
         children: [{
-            path: '/home',
-            name: 'home',
+            path: '/home/sure',
+            name: 'sure',
             meta: {
                 icon: 'ios-navigate',
-                title: '首页',
+                title: '确凿事件',
                 level: '1',
-                num: '1',
+                num: '1-1',
+                pid: 'index',
+            },
+            component: (resolve) => require(['./views/home.vue'], resolve),
+        },{
+            path: '/home/really',
+            name: 'really',
+            meta: {
+                icon: 'ios-navigate',
+                title: '疑似/风险事件',
+                level: '1',
+                num: '1-2',
+                pid: 'index',
+            },
+            component: (resolve) => require(['./views/home.vue'], resolve),
+        },{
+            path: '/home/report',
+            name: 'report',
+            meta: {
+                icon: 'ios-navigate',
+                title: '上报事件',
+                level: '1',
+                num: '1-3',
                 pid: 'index',
             },
             component: (resolve) => require(['./views/home.vue'], resolve),
@@ -30,7 +52,7 @@ const menuConfig = [
         name: 'system',
         meta: {
             icon: 'settings',
-            title: '用户页',
+            title: '系统配置',
             level: '1',
             num: '2'
         },
@@ -50,13 +72,13 @@ const menuConfig = [
                 component: (resolve) => require(['./views/user/user.vue'], resolve),
             },
             {
-                path: '/system/edit',
+                path: '/system/user/edit',
                 name: 'userEdit',
                 meta: {
                     icon: 'ios-navigate',
                     title: '编辑',
                     level: '1',
-                    pid: 'system',
+                    pid: 'userlist',
                     hide:true,
                 },
                 component: (resolve) => require(['./views/user/user-edit.vue'], resolve),
@@ -74,13 +96,13 @@ const menuConfig = [
                 component: (resolve) => require(['./views/role/role.vue'], resolve),
             },
             {
-                path: '/system/edit',
+                path: '/system/role/edit',
                 name: 'roleEdit',
                 meta: {
                     icon: 'ios-navigate',
                     title: '编辑',
                     level: '1',
-                    pid: 'system',
+                    pid: 'rolelist',
                     hide:true,
                 },
                 component: (resolve) => require(['./views/role/role-edit.vue'], resolve),
@@ -96,7 +118,43 @@ const menuConfig = [
                     num: '2-1'
                 },
                 component: (resolve) => require(['./views/organization/organization.vue'], resolve),
-            }
+            },
+             {
+                path: '/system/fileUPload',
+                name: 'fileUPload1',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '文件上传',
+                    level: '1',
+                    pid: 'system',
+                    num: '5-1'
+                },
+                component: (resolve) => require(['./views/file/fileUPload.vue'], resolve),
+            },
+            {
+                path: '/system/appsys',
+                name: 'appsyslist',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '应用系统',
+                    level: '1',
+                    pid: 'system',
+                    num: '3-1'
+                },
+                component: (resolve) => require(['./views/appsys/appsys.vue'], resolve),
+            },
+            {
+                path: '/system/appsys/edit',
+                name: 'appsysEdit',
+                meta: {
+                    icon: 'ios-navigate',
+                    title: '编辑',
+                    level: '1',
+                    pid: 'appsyslist',
+                    hide:true,
+                },
+                component: (resolve) => require(['./views/appsys/appsys-edit.vue'], resolve),
+            },
         ]
     },
     {
@@ -106,7 +164,7 @@ const menuConfig = [
             icon: 'settings',
             title: '接口测试页',
             level: '1',
-            num: '2'
+            num: '4'
         },
         redirect: '/test/test',
         component: Index,
@@ -119,13 +177,14 @@ const menuConfig = [
                     title: '接口测试页',
                     level: '1',
                     pid: 'test',
-                    num: '2-1'
+                    num: '4-1'
                 },
                 component: (resolve) => require(['./views/api/api.vue'], resolve),
             }
         ]
     }
 ];
+
 
 const routers = [...menuConfig, {
     path: '/login',

@@ -6,8 +6,8 @@
         <FormItem label="密码" prop="password">
             <Input type="password" v-model="formValidate.password" placeholder="请输入密码"></Input>
         </FormItem>
-        <FormItem label="姓名" prop="chineseName">
-           <Input v-model="formValidate.chineseName" placeholder="请输入姓名"></Input>
+        <FormItem label="姓名" prop="chinese_name">
+           <Input v-model="formValidate.chinese_name" placeholder="请输入姓名"></Input>
         </FormItem>
         <FormItem label="地址信息" prop="addr">
             <Input v-model="formValidate.addr" placeholder="请输入地址信息"></Input>
@@ -40,7 +40,7 @@
                 formValidate: {
                     username: '',
                     password: '',
-                    chineseName: '',
+                    chinese_name: '',
                     addr: '',
                     sex: '',
                     telephone: '',
@@ -55,7 +55,7 @@
                     password: [
                         {required: true, message: '密码不能为空!', trigger: 'blur'},
                     ],
-                    chineseName: [
+                    chinese_name: [
                         {required: true, message: '姓名不能为空!', trigger: 'blur'},
                     ],
                     telephone: [
@@ -77,10 +77,8 @@
                 }
                 this.$axios.apipost(data, (response) => {
                     //this.roleList = response.data.data.roleList
-                    if (response.data.data.user) {
-                        console.log()
-                        this.formValidate = response.data.data.user
-                        console.log(this.formValidate)
+                    if (response.data.user) {
+                        this.formValidate = response.data.user;
                     }
                 }, (err) => {
                     console.log(err);
@@ -97,7 +95,7 @@
                         }
                         this.$axios.apipost(data, (response) => {
                             this.$Message.success('保存成功!');
-                            this.$router.push('/user');
+                            this.$router.push('/system/user');
                         }, (err) => {
                             console.log(err);
                         })

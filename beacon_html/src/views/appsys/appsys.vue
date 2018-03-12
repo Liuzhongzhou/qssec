@@ -3,14 +3,17 @@
 </style>
 <template>
     <div class="p-20">
-        <div class="title-box">角色操作</div>
+        <div class="title-box">应用系统操作</div>
         <div class="bottomline m-b-10"></div>
         <div class="tool-box">
             <div class="displayIB m-r-10">
-                <span class="W80 displayIB">角色名</span>
-                <Input v-model="form.name" placeholder="Enter something..." clearable class="W240"></Input>
+                <span class="W80 displayIB">应用系统名称</span>
+                <Input v-model="form.app_name" placeholder="Enter something..." clearable class="W240"></Input>
             </div>
-
+            <div class="displayIB">
+                <span class="W80 displayIB">ip地址</span>
+                <Input v-model="form.app_ip" placeholder="Enter something..." clearable class="W240"></Input>
+            </div>
             <div class="displayIB ">
                 <Button type="primary" @click="search">查询数据</Button>
             </div>
@@ -24,18 +27,20 @@
             <p>Content of dialog</p>
             <p>Content of dialog</p>
         </Modal>
-        <role-content :form="form" ref="userContent"></role-content>
+        <appsys-content :form="form" ref="appsysContent"></appsys-content>
     </div>
 </template>
 <script>
-    import roleContent from './role-content.vue';
+    import appsysContent from './appsys-content.vue';
 
     export default {
         data() {
             return {
                 modal: false,
                 form: {
-                    name: '',
+                    app_name: '',
+                    app_ip: '',
+                    city_code: '',
                 }
             };
         },
@@ -49,14 +54,14 @@
                 this.$Message.info('Clicked ok');
             },
             search() {
-                this.$refs.roleContent.initAjax();
+                this.$refs.appsysContent.initAjax();
             },
             cancel() {
                 this.$Message.info('Clicked cancel');
             }
         },
         components: {
-            roleContent
+            appsysContent
         }
     };
 </script>

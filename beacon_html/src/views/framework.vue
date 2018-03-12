@@ -1,7 +1,6 @@
 <style lang="less" scoped>
     .layout{
         border: 1px solid #d7dde4;
-        background: #f5f7f9;
         position: relative;
         border-radius: 4px;
         overflow: hidden;
@@ -13,17 +12,18 @@
             line-height: 46px !important;
             background: white !important;
             position: fixed;
-            left: 0px;
+            left: 180px;
             top: 0px;
-            width: 100%;
+            right: 0px;
             z-index: 999;
             padding: 0px !important;
             box-shadow: 0 2px 3px 2px rgba(0,0,0,.1);
+             transition: left 0.3s;
             &-navline{
                 height: 3px;
-                left: 20px;
+                width: 100%;
                 bottom: 0px;
-                transition: left 0.3s;
+                left: 0px;
             }
             &-badge{
                 min-width: 16px !important;
@@ -46,72 +46,66 @@
         &-slider{
             position: fixed !important;
             left: 0px;
-            top: 46px;
+            top: 0px;
             bottom: 0px;
-            z-index: 999 !important;
+            z-index: 0 !important;
             background: #333941 !important;
         }
         &-linear{
-            padding: 61px 15px 15px 195px;
+            position: fixed;
+            left: 180px;
+            top:46px;
+            right: 0px;
+            bottom: 0px;
+            z-index: 3;
+            padding: 15px;
+            overflow: auto;
             background: #d3e6e7 !important;
             background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
             -webkit-background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
             -moz-background: linear-gradient(to right, #d3e6e7, #eaeae1) !important;
+            transition: left 0.3s;
+
         }
-    }
-    .bounce-enter-active {
-      animation: bounce-in .4s;
-    }
-    .bounce-leave-active{
-      animation: bounce-in .3s reverse;
-    }
-    @keyframes bounce-in {
-      0% {
-        transform: translate(100%);
-      }
-      100% {
-        transform: translate(0);
-      }
+        &-content{
+            min-height: calc(~'100vh - 80px');
+            background:white;
+            min-width:1150px;
+            overflow:auto;
+        }
     }
 </style>
 <template>
     <div class="layout">
-        <Layout :style="{minHeight: '100vh'}">
+        <Layout>
             <!--顶部导航-->
-            <Header class="layout-header overHidden">
-                <div class="layout-logo fLeft W180 h46 center">
-                    <img src="../assets/image/logo.png" alt="">
-                </div>
-                <a href="javascript:;">
-                    <div class="displayIB fLeft center layout-header-borderight">
-                        <Icon type="navicon" class="color-black font28"></Icon>
-                    </div>
-                </a>
-                <div class="layout-nav fLeft p-l-15 positionRL">
-                    <a href="javascript:;" @click="navMovePush(list,index)" :key="index" v-if="list.meta.hide != true" v-for="(list,index) in formatChildmenu">
-                        <div class="layout-navItem displayIB W80 h46 center" :class="{'color-red':index == navIndex}">
-                            <Icon :type="list.meta.icon"></Icon>
-                            <span>{{list.meta.title}}</span>
+                <Header class="layout-header overHidden" :style="{'left':menuLeft+'px'}">
+                    <a href="javascript:;">
+                        <div class="displayIB fLeft center layout-header-borderight" @click="menuMask">
+                            <Icon type="navicon" class="color-black font28"></Icon>
                         </div>
                     </a>
-                    <span class="layout-header-navline bg-red W70 positionAB" :style="{'left':moveLeft}"></span>
-                </div>
-                <a href="javascript:;" @click="showMask">
-                    <div class="displayIB fRight center layout-header-borderleft">
-                        <Badge count="19" class-name="layout-header-badge">
-                            <Icon type="android-notifications-none" class="color-black font26"></Icon>
-                        </Badge>
+                    <div class="layout-nav fLeft p-l-15 positionRL">
+                        <zzui-tab :menu="childmenu" :check="checkRouter"></zzui-tab>
                     </div>
-                </a>
-            </Header>
+                    <a href="javascript:;" @click="showMask">
+                        <div class="displayIB fRight center layout-header-borderleft">
+                            <Badge count="19" class-name="layout-header-badge">
+                                <Icon type="android-notifications-none" class="color-black font26"></Icon>
+                            </Badge>
+                        </div>
+                    </a>
+                </Header>
             <!--自定义菜单组件-->
             <layout class="layout-slider">
                 <zzui-slider :menu="menu" :check="routerName"></zzui-slider>
             </layout>
             <!--中部内容+右侧导航-->
-            <Layout class="layout-linear overHidden">
+            <Layout class="layout-linear overHidden" :style="{'left':menuLeft+'px'}">
                 <Content>
-                    <Card class="font12"><slot name="content"></slot></Card>
+                    <!--事件处置平台流程图-->
+                    <div></div>
+                    <div class="font12 layout-content"><slot name="content"></slot></div>
                 </Content>
                 <transition name="bounce">
                     <zzui-realtime v-show="show" :width="'260'" v-clickoutside="initMask">
@@ -130,6 +124,7 @@
     import {menuConfig} from '../router';
     import zzuiRealtime from '../components/zzui-realtime';
     import zzuiSlider from '../components/zzui-sidebar.vue';
+    import zzuiTab from '../components/zzui-tab.vue';
      import clickoutside from '../libs/clickoutside';
     export default {
         data() {
@@ -144,11 +139,12 @@
                     am:'',
                     hms:''
                 },
-                moveLeft:'20px',
                 childmenu:[],
                 formatChildmenu:[],
                 routerName:'',
+                checkRouter:'',
                 first:true,
+                menuLeft:180,
             }
         },
         directives: { clickoutside },
@@ -185,39 +181,20 @@
                 this.btn = true;
                 this.show = true;
             },
+            menuMask(){
+                this.menuLeft = this.menuLeft == 180 ? 0 : 180;
+            },
             /*
             * 导航定位
             * */
-            navMove(name){
-                let index = 0;
-                this.formatChildmenu = [];
-                for(let i=0;i<this.childmenu.length;i++){
-                    if(!this.childmenu[i].meta.hide){
-                        this.formatChildmenu.push(this.childmenu[i]);
-                    }
-                }
-                for(let i=0;i<this.formatChildmenu.length;i++){
-                    if(name == this.formatChildmenu[i].name){
-                        index = i;
-                    }
-                }
-               this.moveLeft = index * 80+20+'px';
-               this.navIndex = index;
-            },
-            /*
-            * 定位跳转
-            * */
-            navMovePush(params){
-                this.$router.push({'name':params.name});
-            },
             changeRouter(params){
                 this.routerName = params.meta.pid || params.name;
                 for(let i=0;i<this.menu.length;i++){
                     if(this.menu[i].name == this.routerName){
-                        this.childmenu = this.menu[i].children;
+                        this.childmenu = this.menu[i].children || [];
                     }
                 }
-                this.navMove(params.name);
+                this.checkRouter = params.name;
             }
         },
         watch:{
@@ -227,7 +204,8 @@
         },
         components: {
             zzuiRealtime,
-            zzuiSlider
+            zzuiSlider,
+            zzuiTab
         }
     };
 </script>
