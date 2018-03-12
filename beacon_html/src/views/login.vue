@@ -78,10 +78,10 @@
                             'password': this.formCustom.password,
                         }, (response) => {
                             console.log(response.data);
-                            if (response.data && response.data.return_code == 1) {
+                            if (response.data && response.return_code == 1) {
                                 this.$Message.success('连接成功!');
-                                localStorage.setItem('user_name',response.data.data.user_name);
-                                this.$router.push({'name':'home'});
+                                localStorage.setItem('user_name',response.data.user_name);
+                                this.$router.push({'name':'sure'});
                             } else {
                                 this.$Message.error('失败!');
                             }
